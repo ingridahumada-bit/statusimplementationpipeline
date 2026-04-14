@@ -11,7 +11,6 @@ HEADERS = {
     "Content-Type": "application/json",
 }
 
-# ─── IDs de cronogramas en Notion ───────────────────────────────────────────
 CRONOGRAMAS = {
     "Cruz Verde":     "17c63390-2d83-8111-8fe8-000b617b7e29",
     "Mi Comisariato": "2ca63390-2d83-8155-ae74-000b0738252c",
@@ -24,7 +23,6 @@ CRONOGRAMAS = {
     "Puppis Arg":     "42163390-2d83-83db-b015-87aeb58fc21c",
 }
 
-# Kickoffs fijos (inicio hito 1 de cada cronograma)
 KICKOFFS = {
     "Cruz Verde":     date(2025, 1,  7),
     "Mi Comisariato": date(2025, 9,  8),
@@ -38,18 +36,18 @@ KICKOFFS = {
     "Neto":           date(2025, 7,  5),
 }
 
-# Actividades clave a buscar por nombre en cada cronograma
 HITOS = {
-    "forecast": ["Activación Módulo de Forecast", "Activación y Configuración Módulo de Pronóstico de Demanda (Forecast)"],
-    "dist":     ["Activación Módulo de Distribución", "Despliegue en Productivo: Módulo Distribución"],
-    "compras":  ["Activación Módulo de Compras", "Pruebas y Aceptación Módulo de Compras"],
+    "forecast": ["activación módulo de forecast", "activación y configuración módulo de pronóstico de demanda"],
+    "dist":     ["activación módulo de distribución", "despliegue en productivo: módulo distribución",
+                 "despliegue en productivo: módulo distribución"],
+    "compras":  ["activación módulo de compras", "pruebas y aceptación módulo de compras",
+                 "activación del módulo"],
 }
 
 def weeks(start, end):
     return round((end - start).days / 7, 1)
 
 def query_db(db_id):
-    """Lee todas las tareas de un cronograma de Notion."""
     url = f"https://api.notion.com/v1/databases/{db_id}/query"
     results, cursor = [], None
     while True:
@@ -64,21 +62,33 @@ def query_db(db_id):
         cursor = data.get("next_cursor")
     return results
 
-def get_prop(page, key):
-    """Extrae valor de una propiedad de Notion."""
-    props = page.get("properties", {})
-    prop = props.get(key, {})
-    ptype = prop.get("type")
-    if ptype == "title":
-        items = prop.get("title", [])
-        return items[0]["plain_text"] if items else ""
-    if ptype == "status":
-        s = prop.get("status")
-        return s["name"] if s else ""
-    if ptype == "date":
-        d = prop.get("date")
-        return d["end"] or d["start"] if d else None
+def get_title(page):
+    """Extrae título de la página desde la API REST de Notion."""
+    for prop in page.get("properties", {}).values():
+        if prop.get("type") == "title":
+            items = prop.get("title", [])
+            return items[0]["plain_text"] if items else ""
     return ""
+
+def get_status(page):
+    """Extrae estado de la página."""
+    props = page.get("properties", {})
+    for key in ["Estado", "Status"]:
+        prop = props.get(key, {})
+        if prop.get("type") == "status":
+            s = prop.get("status")
+            return s["name"] if s else ""
+    return ""
+
+def get_fin(page):
+    """Extrae fecha fin — prueba todos los campos posibles."""
+    props = page.get("properties", {})
+    for key in ["Fin", "Fecha Fin", "Fecha fin", "Fecha Fin ", "date:Fin:start"]:
+        prop = props.get(key, {})
+        if prop.get("type") == "date" and prop.get("date"):
+            d = prop["date"]
+            return d.get("end") or d.get("start")
+    return None
 
 def parse_date(s):
     if not s:
@@ -89,25 +99,13 @@ def parse_date(s):
         return None
 
 def get_hito(pages, nombres):
-    """Busca el hito por nombre y devuelve (estado, fecha_fin)."""
+    """Busca hito por nombre (case-insensitive) y devuelve (estado, fecha_fin)."""
     for page in pages:
-        title = get_prop(page, "Actividad") or get_prop(page, "Actividad\xa0")
-        if not title:
-            # try title property
-            for prop in page.get("properties", {}).values():
-                if prop.get("type") == "title":
-                    items = prop.get("title", [])
-                    title = items[0]["plain_text"] if items else ""
-                    break
-        if any(n.lower() in title.lower() for n in nombres):
-            estado = get_prop(page, "Estado")
-            fin_raw = None
-            for key in ["Fin", "Fecha Fin", "Fecha fin", "date:Fin:start"]:
-                p = page.get("properties", {}).get(key, {})
-                if p.get("type") == "date" and p.get("date"):
-                    fin_raw = p["date"].get("end") or p["date"].get("start")
-                    break
-            return estado, parse_date(fin_raw)
+        title = get_title(page).lower().strip()
+        if any(n.lower() in title for n in nombres):
+            estado = get_status(page)
+            fin = parse_date(get_fin(page))
+            return estado, fin
     return None, None
 
 def is_atrasado(fin, estado):
@@ -121,9 +119,16 @@ def get_client_data(name, db_id):
     pages = query_db(db_id)
     ko = KICKOFFS.get(name)
 
-    f_estado, f_fin   = get_hito(pages, HITOS["forecast"])
-    d_estado, d_fin   = get_hito(pages, HITOS["dist"])
-    c_estado, c_fin   = get_hito(pages, HITOS["compras"])
+    # Debug: mostrar todas las actividades encontradas
+    print(f"    {name}: {len(pages)} tareas encontradas")
+
+    f_estado, f_fin = get_hito(pages, HITOS["forecast"])
+    d_estado, d_fin = get_hito(pages, HITOS["dist"])
+    c_estado, c_fin = get_hito(pages, HITOS["compras"])
+
+    print(f"    Forecast: estado={f_estado}, fin={f_fin}")
+    print(f"    Dist:     estado={d_estado}, fin={d_fin}")
+    print(f"    Compras:  estado={c_estado}, fin={c_fin}")
 
     ttff = weeks(ko, f_fin) if ko and f_fin else None
     dist = weeks(ko, d_fin) if ko and d_fin else None
@@ -140,14 +145,13 @@ def get_client_data(name, db_id):
     c_atr = is_atrasado(c_fin, c_estado)
     atrasado = f_atr or d_atr or c_atr
 
-    # progreso general: % tareas completadas
-    total = len([p for p in pages if get_prop(p, "Estado") not in ["", None]])
-    done  = len([p for p in pages if "Completada" in str(get_prop(p, "Estado"))])
+    # Progreso general
+    total = len([p for p in pages if get_status(p)])
+    done  = len([p for p in pages if "Completada" in str(get_status(p))])
     pct = round((done / total) * 100) if total else 0
 
     return {
-        "name": name,
-        "ko": ko,
+        "name": name, "ko": ko,
         "ttff": ttff, "ttff_real": f_estado and "Completada" in f_estado,
         "dist": dist,  "dist_real": d_estado and "Completada" in d_estado,
         "ttv": ttv,    "comp_fin": c_fin,
@@ -157,23 +161,14 @@ def get_client_data(name, db_id):
         "pct": pct,
     }
 
-def fmt_sem(v):
-    return f"{v}" if v is not None else "—"
-
 def calc_averages(clients):
-    """Calcula promedios. Puppis = 1 cliente (usa Col). Todos incluidos."""
-    # Excluir Puppis Arg del promedio (ya está representado por Col)
     avgs = [c for c in clients if c["name"] != "Puppis Arg"]
     ttff_v = [c["ttff"] for c in avgs if c["ttff"]]
     dist_v = [c["dist"] for c in avgs if c["dist"]]
     ttv_v  = [c["ttv"]  for c in avgs if c["ttv"]]
-    no_cv_ttv = [c["ttv"] for c in avgs if c["ttv"] and c["name"] != "Cruz Verde"]
-
-    avg_ttff = round(sum(ttff_v)/len(ttff_v), 1) if ttff_v else 0
-    avg_dist = round(sum(dist_v)/len(dist_v), 1) if dist_v else 0
-    avg_ttv  = round(sum(ttv_v)/len(ttv_v), 1)   if ttv_v  else 0
-    no_cv    = round(sum(no_cv_ttv)/len(no_cv_ttv), 1) if no_cv_ttv else 0
-    return avg_ttff, avg_dist, avg_ttv, no_cv
+    no_cv  = [c["ttv"]  for c in avgs if c["ttv"] and c["name"] != "Cruz Verde"]
+    avg = lambda v: round(sum(v)/len(v), 1) if v else 0
+    return avg(ttff_v), avg(dist_v), avg(ttv_v), avg(no_cv)
 
 def badge(c):
     if c["rem"] == 0 and not c["atrasado"]:
@@ -186,16 +181,10 @@ def badge(c):
 
 def golive_badge(c):
     rem = c["rem"]
-    if rem is None:
-        return "gl-na", "sin fecha"
-    if rem == 0:
-        return "gl-done", "Go-live ✓"
-    if rem < 3:
-        return "gl-hot", f"{rem} sem → go-live"
+    if rem is None:   return "gl-na", "sin fecha"
+    if rem == 0:      return "gl-done", "Go-live ✓"
+    if rem < 3:       return "gl-hot", f"{rem} sem → go-live"
     return "gl-mid", f"{rem} sem → go-live"
-
-def pbar(pct, color):
-    return f'<div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:{pct}%;background:{color}"></div></div><span class="pp">{pct}%</span></div>'
 
 def metric_val(val, real, atrasado):
     if val is None:
@@ -210,14 +199,14 @@ def render_card(c, extra_class=""):
     pct = c["pct"]
     gen_color = "var(--re)" if c["atrasado"] else ("var(--gr)" if pct > 70 else "var(--ac)")
     outlier_tag = '<span style="font-size:9px;color:var(--am);font-family:\'DM Mono\',monospace">outlier</span>' if c["name"] == "Cruz Verde" else ""
-
+    ko_str = c['ko'].strftime('%-d %b %Y') if c['ko'] else '—'
     return f"""
     <div class="cc {extra_class}">
       <div class="cc-top">
-        <div><div class="cc-name">{c['name']} {outlier_tag}</div><div class="cc-meta">kickoff {c['ko'].strftime('%-d %b %Y') if c['ko'] else '—'}</div></div>
+        <div><div class="cc-name">{c['name']} {outlier_tag}</div><div class="cc-meta">kickoff {ko_str}</div></div>
         <div class="cc-right"><span class="badge {b_cls}">{b_txt}</span><span class="golive {g_cls}">{g_txt}</span></div>
       </div>
-      {pbar(pct, gen_color)}
+      <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:{pct}%;background:{gen_color}"></div></div><span class="pp">{pct}%</span></div>
       <div class="cc-metrics">
         <div class="m-item">{metric_val(c['ttff'], c['ttff_real'], c['f_atr'])}<div class="m-lbl">TtFF sem</div></div>
         <div class="m-item">{metric_val(c['dist'], c['dist_real'], c['d_atr'])}<div class="m-lbl">TtA sem</div></div>
@@ -227,68 +216,59 @@ def render_card(c, extra_class=""):
 
 def generate_html(clients, avg_ttff, avg_dist, avg_ttv, no_cv_ttv):
     today_str = TODAY.strftime("%-d de %B %Y")
-
-    # KPIs
-    golive = sum(1 for c in clients if c["rem"] == 0 and not c["atrasado"] and c["name"] != "Puppis Arg")
+    golive    = sum(1 for c in clients if c["rem"] == 0 and not c["atrasado"] and c["name"] != "Puppis Arg")
     atrasados = sum(1 for c in clients if c["atrasado"] and c["name"] != "Puppis Arg")
-    en_prog = 9 - golive - atrasados
+    en_prog   = 9 - golive - atrasados
 
-    # Sort clients for chart (by ttv desc, None last)
     chart_clients = [c for c in clients if c["name"] != "Puppis Arg"]
     chart_clients.sort(key=lambda c: c["ttv"] or 0, reverse=True)
 
-    # Client cards (ordered)
-    card_order = ["Cruz Verde", "Fybeca", "Neto", "Puppis Col", "Puppis Arg",
-                  "Mi Comisariato", "MAJA", "Tuvacol", "Tiendas 3B", "MiCorral"]
+    card_order = ["Cruz Verde","Fybeca","Neto","Puppis Col","Puppis Arg",
+                  "Mi Comisariato","MAJA","Tuvacol","Tiendas 3B","MiCorral"]
     cards_html = ""
     puppis_done = False
     for name in card_order:
         c = next((x for x in clients if x["name"] == name), None)
-        if not c:
-            continue
+        if not c: continue
         if name == "Puppis Col" and not puppis_done:
             c_arg = next((x for x in clients if x["name"] == "Puppis Arg"), None)
             cards_html += '\n    <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px">'
             cards_html += render_card(c, "outlier golive-done")
-            if c_arg:
-                cards_html += render_card(c_arg)
+            if c_arg: cards_html += render_card(c_arg)
             cards_html += '\n    </div>'
             puppis_done = True
             continue
-        if name == "Puppis Arg":
-            continue
+        if name == "Puppis Arg": continue
         extra = "outlier" if name in ["Cruz Verde","Fybeca","Neto","Mi Comisariato"] else ""
-        if name == "Mi Comisariato":
-            extra = "outlier"
         cards_html += render_card(c, extra)
 
-    # Chart rows
     MAX, META = 75, 24
     meta_pct = (META / MAX) * 100
     chart_rows = ""
     for c in chart_clients:
-        el_pct = min((c["elapsed"] / MAX) * 100, 100)
-        rem = c["rem"] or 0
-        rem_pct = min((rem / MAX) * 100, 100 - el_pct) if rem > 0 else 0
-        ttv = c["ttv"] or 0
+        el_pct  = min((c["elapsed"] / MAX) * 100, 100)
+        rem     = c["rem"] or 0
+        ttv     = c["ttv"] or 0
         ttv_pct = min((ttv / MAX) * 100, 100)
-        over = ttv > META
-        near = 0 < rem < 3
-        rem_color = "#3ecf8e" if near else "#f5a623"
-        bar_color = "#f25f5c" if c["name"] == "Cruz Verde" else "#5b8fff"
-
+        over    = ttv > META
+        near    = 0 < rem < 3
+        rem_color  = "#3ecf8e" if near else "#f5a623"
+        bar_color  = "#f25f5c" if c["name"] == "Cruz Verde" else "#5b8fff"
         if rem == 0:
             bar_inner = f'<div style="height:100%;width:{ttv_pct:.1f}%;background:#3ecf8e;opacity:.5;border-radius:3px"></div>'
         else:
-            bar_inner = f'<div style="height:100%;width:{el_pct:.1f}%;background:{bar_color};opacity:.8;border-radius:3px 0 0 3px;display:inline-block;vertical-align:top"></div>'
+            rem_pct = min((rem / MAX) * 100, 100 - el_pct)
+            bar_inner = (f'<div style="height:100%;width:{el_pct:.1f}%;background:{bar_color};opacity:.8;'
+                         f'border-radius:3px 0 0 3px;display:inline-block;vertical-align:top"></div>')
             if rem_pct > 0:
-                bar_inner += f'<div style="height:100%;width:{rem_pct:.1f}%;background:{rem_color};opacity:.95;border-radius:0 3px 3px 0;display:inline-block;vertical-align:top"></div>'
-
-        over_div = f'<div style="position:absolute;top:50%;transform:translateY(-50%);left:{meta_pct:.1f}%;width:{max(ttv_pct-meta_pct,0):.1f}%;height:14px;background:rgba(242,95,92,0.12);z-index:1;border-radius:0 3px 3px 0"></div>' if over else ""
-        rem_txt = "✓ go-live" if rem == 0 else f"{rem} sem rest."
-        rem_clr = "var(--gr)" if rem == 0 else ("#3ecf8e" if near else "#f5a623")
+                bar_inner += (f'<div style="height:100%;width:{rem_pct:.1f}%;background:{rem_color};opacity:.95;'
+                              f'border-radius:0 3px 3px 0;display:inline-block;vertical-align:top"></div>')
+        over_div = (f'<div style="position:absolute;top:50%;transform:translateY(-50%);left:{meta_pct:.1f}%;'
+                    f'width:{max(ttv_pct-meta_pct,0):.1f}%;height:14px;background:rgba(242,95,92,0.12);'
+                    f'z-index:1;border-radius:0 3px 3px 0"></div>') if over else ""
+        rem_txt  = "✓ go-live" if rem == 0 else f"{rem} sem rest."
+        rem_clr  = "var(--gr)" if rem == 0 else ("#3ecf8e" if near else "#f5a623")
         name_cls = " out" if c["name"] == "Cruz Verde" else ""
-
         chart_rows += f"""
     <div class="chart-row">
       <div><div class="cr-name{name_cls}">{c['name']}</div><div class="cr-sub">TTV est. {ttv} sem</div></div>
@@ -301,6 +281,8 @@ def generate_html(clients, avg_ttff, avg_dist, avg_ttv, no_cv_ttv):
       </div>
       <div class="cr-nums"><div class="cr-el">{ttv} sem TTV</div><div class="cr-rem" style="color:{rem_clr}">{rem_txt}</div></div>
     </div>"""
+
+    cv_ttv = next((c["ttv"] for c in chart_clients if c["name"] == "Cruz Verde"), "—")
 
     return f"""<!DOCTYPE html>
 <html lang="es">
@@ -421,7 +403,7 @@ body{{font-family:'Sora',sans-serif;background:var(--bg);color:var(--tx);min-hei
     <strong>TtFF</strong> kickoff → forecast activo &nbsp;·&nbsp; <strong>TtA</strong> kickoff → distribución go-live &nbsp;·&nbsp; <strong>TTV</strong> kickoff → activación módulo compras &nbsp;·&nbsp; ⚠️ = hito vencido sin completar
   </div>
   <div class="outlier-note">
-    <strong>Cruz Verde</strong> (kickoff ene 2025 · {chart_clients[0]['ttv'] if chart_clients else '—'} sem TTV) incluido en promedio, marcado como outlier visual. Sin CV TTV: <strong>{no_cv_ttv} sem</strong>. Atrasados = hitos vencidos sin completar.
+    <strong>Cruz Verde</strong> (kickoff ene 2025 · {cv_ttv} sem TTV) incluido en promedio, marcado outlier visual. Sin CV: TTV <strong>{no_cv_ttv} sem</strong>. Hitos vencidos sin completar → marcados ⚠️ Atrasado.
   </div>
   <div class="slabel">Pipeline · semana {TODAY.strftime('%-d %b %Y')}</div>
   <div class="kpi-row">
@@ -456,14 +438,18 @@ if __name__ == "__main__":
     print("Leyendo cronogramas de Notion...")
     clients = []
 
-    # Neto viene del Excel, no de Notion — usamos valores fijos actualizables
+    # Neto: datos desde Excel, valores fijos actualizables aquí
+    neto_comp = date(2026, 4, 24)
+    neto_rem  = max(round((neto_comp - TODAY).days / 7, 1), 0)
     neto = {
         "name": "Neto", "ko": KICKOFFS["Neto"],
-        "ttff": 28.9, "ttff_real": False, "dist": 29.3, "dist_real": False,
-        "ttv": 41.9, "comp_fin": date(2026, 4, 24),
-        "elapsed": weeks(KICKOFFS["Neto"], min(TODAY, date(2026, 4, 24))),
-        "rem": max(round((date(2026, 4, 24) - TODAY).days / 7, 1), 0),
-        "atrasado": True, "f_atr": True, "d_atr": True, "c_atr": False, "pct": 61,
+        "ttff": 28.9, "ttff_real": False,
+        "dist": 29.3, "dist_real": False,
+        "ttv": 41.9,  "comp_fin": neto_comp,
+        "elapsed": min(weeks(KICKOFFS["Neto"], TODAY), 41.9),
+        "rem": neto_rem,
+        "atrasado": True, "f_atr": True, "d_atr": True, "c_atr": False,
+        "pct": 61,
     }
     clients.append(neto)
 
