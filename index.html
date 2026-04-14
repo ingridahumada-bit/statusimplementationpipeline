@@ -342,43 +342,43 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--tx);min-heig
 (function(){
   var MAX=75, META=24, metaPct=(META/MAX)*100;
   var clients=[
-    {name:'Cruz Verde *',    flag:'🇨🇴', out:true,  el:65.9, rem:2.4,  done:false},
-    {name:'Fybeca *',        flag:'🇪🇨', out:true,  el:33.9, rem:2.4,  done:false},
-    {name:'Neto *',          flag:'🇲🇽', out:true,  el:40.3, rem:1.6,  done:false},
-    {name:'Puppis Col *',    flag:'🇨🇴', out:true,  el:23.3, rem:0,    done:true},
-    {name:'Mi Comisariato *',flag:'🇨🇴', out:true,  el:31.0, rem:7.0,  done:false},
-    {name:'MAJA',            flag:'🇨🇴', out:false, el:6.9,  rem:7.0,  done:false},
-    {name:'Tuvacol',         flag:'🇨🇴', out:false, el:6.9,  rem:7.0,  done:false},
-    {name:'Tiendas 3B',      flag:'🇨🇴', out:false, el:6.9,  rem:7.0,  done:false},
-    {name:'MiCorral',        flag:'🇨🇴', out:false, el:6.0,  rem:7.0,  done:false},
-    {name:'Puppis Arg',      flag:'🇦🇷', out:false, el:6.0,  rem:7.0,  done:false},
+    {name:'Cruz Verde *',    flag:'🇨🇴', out:true,  el:65.9, rem:2.4,  ttv:68.3, done:false},
+    {name:'Neto *',          flag:'🇲🇽', out:true,  el:40.3, rem:1.6,  ttv:41.9, done:false},
+    {name:'Fybeca *',        flag:'🇪🇨', out:true,  el:33.9, rem:2.4,  ttv:36.3, done:false},
+    {name:'Mi Comisariato *',flag:'🇨🇴', out:true,  el:31.0, rem:7.0,  ttv:38.0, done:false},
+    {name:'Puppis Col *',    flag:'🇨🇴', out:true,  el:23.3, rem:0,    ttv:23.3, done:false},
+    {name:'MAJA',            flag:'🇨🇴', out:false, el:6.9,  rem:7.0,  ttv:13.9, done:false},
+    {name:'Tuvacol',         flag:'🇨🇴', out:false, el:6.9,  rem:7.0,  ttv:13.9, done:false},
+    {name:'Tiendas 3B',      flag:'🇨🇴', out:false, el:6.9,  rem:7.0,  ttv:13.9, done:false},
+    {name:'MiCorral',        flag:'🇨🇴', out:false, el:6.0,  rem:7.0,  ttv:13.0, done:false},
+    {name:'Puppis Arg',      flag:'🇦🇷', out:false, el:6.0,  rem:7.0,  ttv:13.0, done:false},
   ];
   var chart=document.getElementById('chart');
   clients.forEach(function(c){
     var elPct=Math.min((c.el/MAX)*100,100);
     var remPct=c.rem!=null&&c.rem>0?Math.min((c.rem/MAX)*100,100-elPct):null;
-    var near=c.rem!=null&&c.rem>0&&c.rem<3;
+    var near=c.rem>0&&c.rem<3;
     var remColor=near?'#3ecf8e':'#f5a623';
+    var ttvPct=Math.min((c.ttv/MAX)*100,100);
+    var overMeta=c.ttv>META;
     var row=document.createElement('div');
     row.className='chart-row';
-    var barInner='';
-    if(c.done){
-      barInner='<div class="seg-done" style="width:100%"></div>';
-    } else if(c.rem===null){
-      barInner='<div class="seg-nodata"></div>';
-    } else {
-      barInner='<div class="seg-el'+(c.out?' out-color':'')+'" style="width:'+elPct+'%"></div>';
-      if(remPct&&remPct>0) barInner+='<div class="seg-rem" style="width:'+remPct+'%;background:'+remColor+'"></div>';
-    }
-    var remTxt=c.done?'✓ go-live':c.rem===null?'—':(c.rem===0?'go-live':c.rem+' sem rest.');
-    var remColor2=c.done?'var(--gr)':c.rem===null?'var(--mu)':near?'#3ecf8e':'#f5a623';
+    var barInner=c.rem===0
+      ?'<div style="height:100%;width:'+ttvPct+'%;background:#3ecf8e;opacity:.5;border-radius:3px"></div>'
+      :'<div style="height:100%;width:'+elPct+'%;background:'+(c.out?'#f25f5c':'#5b8fff')+';opacity:.8;border-radius:3px 0 0 3px;display:inline-block;vertical-align:top"></div>'
+       +(c.rem>0?'<div style="height:100%;width:'+Math.min((c.rem/MAX)*100,100-elPct)+'%;background:'+remColor+';opacity:.95;border-radius:0 3px 3px 0;display:inline-block;vertical-align:top"></div>':'');
+    var remTxt=c.rem===0?'✓ go-live':(c.rem+' sem rest.');
+    var remColor2=c.rem===0?'var(--gr)':near?'#3ecf8e':'#f5a623';
     row.innerHTML=
-      '<div><div class="cr-name'+(c.out?' out':'')+'">'+c.name+'</div><div class="cr-sub">'+c.flag+' · hace '+c.el+' sem</div></div>'
+      '<div><div class="cr-name'+(c.out?' out':'')+'">'+c.name+'</div><div class="cr-sub">'+c.flag+' · TTV est. '+c.ttv+' sem</div></div>'
       +'<div class="bar-area">'
-        +'<div class="meta-line" style="left:'+metaPct+'%"><span class="meta-lbl">meta 16</span></div>'
-        +'<div class="bar-track">'+barInner+'</div>'
+        +'<div style="position:absolute;top:0;bottom:0;left:'+metaPct+'%;width:1.5px;background:rgba(255,255,255,0.2);z-index:2">'
+          +'<span style="position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:8px;font-family:DM Mono,monospace;color:var(--mu);white-space:nowrap">meta 24</span>'
+        +'</div>'
+        +(overMeta?'<div style="position:absolute;top:50%;transform:translateY(-50%);left:'+metaPct+'%;width:'+(ttvPct-metaPct)+'%;height:14px;background:rgba(242,95,92,0.12);z-index:1;border-radius:0 3px 3px 0"></div>':'')
+        +'<div style="position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:14px;background:var(--s2);border-radius:3px;overflow:hidden;display:flex">'+barInner+'</div>'
       +'</div>'
-      +'<div class="cr-nums"><div class="cr-el">'+c.el+' transcurridas</div><div class="cr-rem" style="color:'+remColor2+'">'+remTxt+'</div></div>';
+      +'<div class="cr-nums"><div class="cr-el">'+c.ttv+' sem TTV</div><div class="cr-rem" style="color:'+remColor2+'">'+remTxt+'</div></div>';
     chart.appendChild(row);
   });
   chart.lastChild.style.borderBottom='1px solid var(--b1)';
