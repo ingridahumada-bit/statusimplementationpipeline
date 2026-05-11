@@ -1,0 +1,44 @@
+name: Actualizar Dashboard
+
+on:
+  schedule:
+    - cron: '0 8 */3 * *'   # cada 3 días a las 8am UTC
+  workflow_dispatch:          # trigger manual desde Actions UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias Python
+        run: pip install requests pandas openpyxl
+
+      - name: Generar data.json
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: python scripts/generate_dashboard.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar dependencias Node
+        run: npm ci
+
+      - name: Build Next.js
+        run: npm run build
+
+      - name: Deploy a GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
