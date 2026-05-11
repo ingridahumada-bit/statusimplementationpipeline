@@ -134,7 +134,7 @@
         "atrasado": true
       },
       "distribucion": {
-        "estado": "No iniciada",
+        "estado": "En progreso",
         "fecha_fin": "2026-04-20",
         "completada": false,
         "atrasado": true
@@ -150,7 +150,7 @@
       "ttv_sem": 13.9,
       "elapsed_sem": 10.9,
       "remaining_sem": 3.0,
-      "progress_pct": 24,
+      "progress_pct": 26,
       "status": "atrasado",
       "atrasado_por": [
         "forecast",
@@ -329,19 +329,20 @@
       },
       "compras": {
         "estado": "En progreso",
-        "fecha_fin": "2026-06-01",
+        "fecha_fin": "2026-04-30",
         "completada": false,
-        "atrasado": false
+        "atrasado": true
       },
       "ttff_sem": 8.4,
       "tta_sem": 7.0,
-      "ttv_sem": 13.0,
+      "ttv_sem": 8.4,
       "elapsed_sem": 10.0,
-      "remaining_sem": 3.0,
+      "remaining_sem": 0,
       "progress_pct": 73,
       "status": "atrasado",
       "atrasado_por": [
-        "distribucion"
+        "distribucion",
+        "compras"
       ]
     }
   ]

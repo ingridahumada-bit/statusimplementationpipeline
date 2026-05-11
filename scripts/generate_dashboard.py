@@ -97,7 +97,9 @@ def get_status(page: dict) -> str:
 
 
 def get_fecha_fin(page: dict) -> str | None:
-    for prop in page["properties"].values():
+    # Some DBs use "Fecha Fin", others use "Fin" — try explicit names first
+    for key in ("Fecha Fin", "Fin"):
+        prop = page["properties"].get(key, {})
         if prop.get("type") == "date" and prop.get("date"):
             d = prop["date"]
             return d.get("end") or d.get("start")
