@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Reads Notion databases (9 clients) + Neto Excel → writes public/data.json
+Reads Notion databases (9 clients) + Neto Google Sheet → writes public/data.json
 """
 from __future__ import annotations
 import json
@@ -8,7 +8,6 @@ import os
 import re
 from datetime import date, datetime
 
-import pandas as pd
 import requests
 
 NOTION_TOKEN = os.environ["NOTION_TOKEN"]
@@ -40,7 +39,7 @@ CLIENT_META = {
     "MiCorral":       {"flag": "🇨🇴", "country": "Colombia",   "kickoff": "2026-03-02", "is_outlier_visual": False, "in_average": True},
     "Puppis Col":     {"flag": "🇨🇴", "country": "Colombia",   "kickoff": "2025-09-03", "is_outlier_visual": False, "in_average": True},
     "Puppis Arg":     {"flag": "🇦🇷", "country": "Argentina",  "kickoff": "2026-03-02", "is_outlier_visual": False, "in_average": False},
-    "Neto":           {"flag": "🇲🇽", "country": "México",     "kickoff": "2025-07-05", "is_outlier_visual": False, "in_average": True},
+    "Neto":           {"flag": "🇲🇽", "country": "México",     "kickoff": "2025-07-05", "is_outlier_visual": False, "in_average": True, "gsheet": "1azDG7zcRHqFv6s6jufBp5w1EemeBqM2yahv040jCgyc", "gid": "1934856518"},
 }
 
 HITO_ALIASES = {
@@ -207,39 +206,90 @@ def build_notion_client(name: str) -> dict:
     return build_client_metrics(name, kickoff, forecast, distribucion, compras, progress_pct)
 
 
-# ── Neto Excel builder ────────────────────────────────────────────────────────
+# ── Neto Google Sheet builder ─────────────────────────────────────────────────
 
-def build_neto_from_excel(path: str) -> dict:
-    print("  Reading Neto from Excel...")
-    df = pd.read_excel(path, header=0)
-    df.columns = [str(c).strip() for c in df.columns]
+NETO_GSHEET_URL = (
+    "https://docs.google.com/spreadsheets/d/"
+    "{sheet_id}/export?format=csv&gid={gid}"
+)
 
-    tasks = df[df["Actividad"].notna() & df["Estado"].notna()].copy()
-    tasks["_fecha_fin"] = pd.to_datetime(tasks["Fecha Fin"], errors="coerce").dt.date
+
+def parse_mx_date(raw: str) -> str | None:
+    """Parse dd/mm/yyyy (Mexican format) → ISO yyyy-mm-dd. Returns None if invalid."""
+    raw = raw.strip()
+    if not raw or raw == "-":
+        return None
+    try:
+        return datetime.strptime(raw, "%d/%m/%Y").date().isoformat()
+    except ValueError:
+        return None
+
+
+def build_neto_from_gsheet() -> dict:
+    print("  Fetching Neto from Google Sheets...")
+    meta = CLIENT_META["Neto"]
+    url  = NETO_GSHEET_URL.format(sheet_id=meta["gsheet"], gid=meta["gid"])
+
+    import csv, io
+    resp = requests.get(url, timeout=30)
+    resp.raise_for_status()
+    rows = list(csv.reader(io.StringIO(resp.text)))
+
+    # Row 0 = group headers, Row 1 = column headers, data starts at Row 2
+    data_rows = rows[2:]
+
+    # Col indices: B=1 Módulo, C=2 Actividad, E=4 Estado, H=7 FinOrig, N=13 FinMod
+    COL_ACT   = 2
+    COL_EST   = 4
+    COL_H_FIN = 7   # Fecha Fin Original
+    COL_N_FIN = 13  # Fecha Fin Modificado 03/2026
+
+    def best_fin(row: list) -> str | None:
+        """Use col N if it has a real date, else fall back to col H."""
+        n = parse_mx_date(row[COL_N_FIN]) if len(row) > COL_N_FIN else None
+        if n:
+            return n
+        return parse_mx_date(row[COL_H_FIN]) if len(row) > COL_H_FIN else None
+
+    tasks = [
+        {
+            "actividad": r[COL_ACT].strip(),
+            "estado":    r[COL_EST].strip(),
+            "fecha_fin": best_fin(r),
+        }
+        for r in data_rows
+        if len(r) > COL_EST and r[COL_ACT].strip() and r[COL_EST].strip()
+    ]
 
     total = len(tasks)
-    done  = len(tasks[tasks["Estado"].isin(["Completado", "Completada"])])
+    done  = sum(1 for t in tasks if t["estado"] in ("Completado", "Completada"))
     progress_pct = round((done / total) * 100) if total else 0
 
-    def find_excel_hito(pattern: str) -> tuple[str, str | None]:
-        mask = tasks["Actividad"].str.contains(pattern, case=False, na=False, regex=True)
-        rows = tasks[mask & tasks["_fecha_fin"].notna()]
-        if rows.empty:
+    def find_hito(pattern: str) -> tuple[str, str | None]:
+        """Return last matching row (estado, fecha_fin)."""
+        matches = [
+            t for t in tasks
+            if re.search(pattern, t["actividad"], re.IGNORECASE) and t["fecha_fin"]
+        ]
+        if not matches:
+            # fallback: match without requiring date
+            matches = [t for t in tasks if re.search(pattern, t["actividad"], re.IGNORECASE)]
+        if not matches:
             return "", None
-        r = rows.iloc[-1]
-        return str(r["Estado"]), str(r["_fecha_fin"])
+        t = matches[-1]
+        return t["estado"], t["fecha_fin"]
 
-    forecast_raw    = find_excel_hito(r"Activaci[oó]n.*Forecast|M[oó]dulo.*Forecast")
-    distribucion_raw = find_excel_hito(r"Salida.*[Vv]ivo.*[Dd]ispers|Distribuci[oó]n")
-    compras_raw     = find_excel_hito(r"Salida.*[Vv]ivo.*[Cc]ompras|Compras")
+    forecast_raw     = find_hito(r"Fase Activaci[oó]n M[oó]dulo Forecast|Activaci[oó]n.*Forecast")
+    distribucion_raw = find_hito(r"Salida en Vivo Dispers|Salida.*Vivo.*Dispers")
+    compras_raw      = find_hito(r"Fase Activaci[oó]n m[oó]dulo de Compras|Salida.*Vivo.*Compras")
 
-    forecast    = build_hito(*forecast_raw)
+    forecast     = build_hito(*forecast_raw)
     distribucion = build_hito(*distribucion_raw)
-    compras     = build_hito(*compras_raw)
+    compras      = build_hito(*compras_raw)
 
-    kickoff = CLIENT_META["Neto"]["kickoff"]
+    kickoff = meta["kickoff"]
     client  = build_client_metrics("Neto", kickoff, forecast, distribucion, compras, progress_pct)
-    client["source"] = "excel"
+    client["source"] = "gsheet"
     return client
 
 
@@ -273,11 +323,7 @@ def main():
     for name in CRONOGRAMAS:
         clients.append(build_notion_client(name))
 
-    excel_path = os.path.join(os.path.dirname(__file__), "..", "data", "Cronograma_Neto_V3.xlsx")
-    if os.path.exists(excel_path):
-        clients.append(build_neto_from_excel(excel_path))
-    else:
-        print("  ⚠ Excel de Neto no encontrado, omitiendo.")
+    clients.append(build_neto_from_gsheet())
 
     averages = calc_averages(clients)
     output = {

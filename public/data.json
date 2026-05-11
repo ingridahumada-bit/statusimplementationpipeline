@@ -2,12 +2,12 @@
   "updated_at": "2026-05-11",
   "averages": {
     "ttff": 13.8,
-    "tta": 21.3,
-    "ttv": 28.0,
-    "ttv_no_cv": 21.6,
+    "tta": 23.6,
+    "ttv": 29.6,
+    "ttv_no_cv": 24.2,
     "n_ttff": 7,
-    "n_tta": 8,
-    "n_ttv": 8
+    "n_tta": 9,
+    "n_ttv": 9
   },
   "clients": [
     {
@@ -342,6 +342,43 @@
       "status": "atrasado",
       "atrasado_por": [
         "distribucion",
+        "compras"
+      ]
+    },
+    {
+      "name": "Neto",
+      "flag": "🇲🇽",
+      "country": "México",
+      "kickoff": "2025-07-05",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "gsheet",
+      "forecast": {
+        "estado": "",
+        "fecha_fin": null,
+        "completada": false,
+        "atrasado": false
+      },
+      "distribucion": {
+        "estado": "Completado",
+        "fecha_fin": "2026-04-27",
+        "completada": true,
+        "atrasado": false
+      },
+      "compras": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-04-27",
+        "completada": false,
+        "atrasado": true
+      },
+      "ttff_sem": null,
+      "tta_sem": 42.3,
+      "ttv_sem": 42.3,
+      "elapsed_sem": 44.3,
+      "remaining_sem": 0,
+      "progress_pct": 81,
+      "status": "atrasado",
+      "atrasado_por": [
         "compras"
       ]
     }
