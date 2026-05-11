@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Implementaciones — Celes</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0f14;--s1:#13161d;--s2:#1a1e28;--b1:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.13);--tx:#e8eaf0;--mu:#5e6478;--mu2:#8891a8;--ac:#5b8fff;--ac-s:rgba(91,143,255,0.1);--gr:#3ecf8e;--gr-s:rgba(62,207,142,0.1);--am:#f5a623;--am-s:rgba(245,166,35,0.1);--re:#f25f5c;--re-s:rgba(242,95,92,0.1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;padding-bottom:5rem}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;border-bottom:1px solid var(--b1);position:sticky;top:0;background:rgba(13,15,20,0.92);z-index:10;backdrop-filter:blur(12px)}
+.logo{font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--mu2);text-transform:uppercase}
+.logo span{color:var(--ac)}
+.update{font-family:'DM Mono',monospace;font-size:11px;color:var(--mu);background:var(--s2);border:1px solid var(--b2);padding:4px 12px;border-radius:20px}
+.update b{color:var(--mu2);font-weight:500}
+.page{max-width:1100px;margin:0 auto;padding:2.5rem 2rem}
+.slabel{font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--mu);margin-bottom:.9rem;margin-top:2.5rem}
+.slabel:first-child{margin-top:0}
+
+/* NS */
+.ns-top{border:1px solid var(--b2);border-radius:16px;overflow:hidden;margin-bottom:1px}
+.ns-card{background:var(--s1);padding:1.75rem 2rem 1.5rem}
+.ns-card.center{text-align:center;padding:1.75rem 30%}
+.ns-icon{font-size:15px;margin-bottom:.5rem}
+.ns-tag{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:.35rem}
+.ns-val{font-size:42px;font-weight:300;color:var(--tx);line-height:1;letter-spacing:-.03em}
+.ns-val .u{font-size:16px;color:var(--mu2);margin-left:3px}
+.ns-val.warn{color:var(--am)}
+.ns-target{display:inline-block;font-size:10px;font-family:'DM Mono',monospace;padding:3px 8px;border-radius:4px;margin-top:.55rem}
+.ns-target.bad{color:var(--am);background:var(--am-s)}
+.ns-meta{font-size:10.5px;color:var(--mu);margin-top:.5rem;line-height:1.6}
+.ns-sub{font-size:10px;color:var(--mu);font-family:'DM Mono',monospace;margin-top:.35rem}
+.ns-sub span{color:var(--mu2)}
+.ns-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--b2);border:1px solid var(--b2);border-radius:16px;overflow:hidden;margin-bottom:.75rem}
+
+/* NOTES */
+.defs{background:var(--s2);border-left:2px solid var(--ac);border-radius:0 8px 8px 0;padding:.8rem 1.2rem;margin-bottom:.6rem;font-size:11px;color:var(--mu2);line-height:1.75}
+.defs strong{color:var(--tx);font-weight:500}
+.outlier-note{background:var(--s2);border-left:2px solid var(--am);border-radius:0 8px 8px 0;padding:.8rem 1.2rem;margin-bottom:1.75rem;font-size:11px;color:var(--mu2);line-height:1.7}
+.outlier-note strong{color:var(--tx);font-weight:500}
+
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:2rem}
+.kpi{background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:1.2rem;text-align:center}
+.kpi-n{font-size:34px;font-weight:300;letter-spacing:-.03em;line-height:1}
+.kpi-l{font-size:11px;color:var(--mu2);margin-top:5px}
+
+/* CLIENT GRID */
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cc{background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:1.35rem;transition:border-color .2s}
+.cc:hover{border-color:var(--b2)}
+.cc.outlier{border-color:rgba(245,166,35,0.22)}
+.cc.golive-done{border-color:rgba(62,207,142,0.3)}
+.cc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.1rem;gap:6px}
+.cc-name{font-size:13px;font-weight:500;line-height:1.3}
+.cc-meta{font-size:10px;color:var(--mu);margin-top:3px}
+.cc-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.badge{font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.b-gr{background:var(--gr-s);color:var(--gr)}.b-am{background:var(--am-s);color:var(--am)}.b-re{background:var(--re-s);color:var(--re)}
+.golive{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.gl-hot{background:var(--gr-s);color:var(--gr)}.gl-mid{background:var(--am-s);color:var(--am)}.gl-na{background:var(--b1);color:var(--mu)}.gl-done{background:var(--gr-s);color:var(--gr)}
+.prow{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.pl{font-family:'DM Mono',monospace;font-size:10px;color:var(--mu);width:56px;flex-shrink:0}
+.pt{flex:1;height:3px;background:var(--s2);border-radius:99px;overflow:hidden}
+.pf{height:100%;border-radius:99px}
+.pp{font-family:'DM Mono',monospace;font-size:10px;color:var(--mu2);width:26px;text-align:right}
+.cc-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--b1)}
+.m-item{text-align:center;padding:7px 4px;background:var(--s2);border-radius:7px}
+.m-val{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--tx)}
+.m-val.na{color:var(--mu)}.m-val.real{color:var(--gr)}.m-val.est{color:var(--mu2)}.m-val.out{color:var(--am)}
+.m-lbl{font-size:8.5px;color:var(--mu);letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
+
+/* CHART */
+.chart-section{margin-top:2.5rem}
+.chart-row{display:grid;grid-template-columns:148px 1fr 100px;align-items:center;padding:10px 0;border-top:1px solid var(--b1)}
+.chart-row:last-child{border-bottom:1px solid var(--b1)}
+.cr-name{font-size:12px;font-weight:500;padding-right:14px}
+.cr-name.out{color:var(--am)}
+.cr-sub{font-size:10px;color:var(--mu);margin-top:2px}
+.bar-area{position:relative;height:32px}
+.bar-track{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:14px;background:var(--s2);border-radius:3px;overflow:hidden;display:flex}
+.seg-el{height:100%;background:#5b8fff;opacity:.8}
+.seg-el.out-color{background:var(--re);opacity:.6}
+.seg-rem{height:100%;opacity:.95}
+.seg-done{height:100%;width:100%;background:var(--gr);opacity:.4}
+.seg-nodata{height:100%;width:100%;background:repeating-linear-gradient(90deg,var(--s2) 0,var(--s2) 8px,rgba(255,255,255,0.07) 8px,rgba(255,255,255,0.07) 10px)}
+.meta-line{position:absolute;top:0;bottom:0;width:1.5px;background:rgba(255,255,255,0.18);z-index:2}
+.meta-lbl{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:8px;font-family:'DM Mono',monospace;color:var(--mu);white-space:nowrap}
+.cr-nums{text-align:right;padding-left:12px}
+.cr-el{font-family:'DM Mono',monospace;font-size:10px;color:var(--mu2)}
+.cr-rem{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;margin-top:1px}
+
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.ns-top,.ns-grid{animation:up .45s ease both}
+.defs,.outlier-note{animation:up .45s .04s ease both}
+.kpi-row{animation:up .45s .08s ease both}
+.cgrid{animation:up .45s .13s ease both}
+.chart-section{animation:up .45s .18s ease both}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><span>Celes</span> · Implementaciones</div>
+  <div class="update">Actualización: <b>13 de abril 2026</b></div>
+</div>
+
+<div class="page">
+
+  <div class="slabel">North star metrics — promedios del área · 9 clientes (Puppis = 1)</div>
+
+  <div class="ns-top">
+    <div class="ns-card center">
+      <div class="ns-icon">⭐</div>
+      <div class="ns-tag">TTV · Time to Value</div>
+      <div class="ns-val warn">29.2 <span class="u">sem</span></div>
+      <div class="ns-target bad">Meta ≤ 24 sem · 9 clientes</div>
+      <div class="ns-meta">Kickoff → Activación Módulo de Compras</div>
+      <div class="ns-sub">Sin Cruz Verde: <span>24.3 sem</span></div>
+    </div>
+  </div>
+  <div class="ns-grid">
+    <div class="ns-card">
+      <div class="ns-icon">⚡</div>
+      <div class="ns-tag">TtFF · Time to First Forecast</div>
+      <div class="ns-val warn">15.6 <span class="u">sem</span></div>
+      <div class="ns-target bad">Meta ≤ 8 sem · 8 clientes</div>
+      <div class="ns-meta">Kickoff → Forecast activo en producción</div>
+      <div class="ns-sub">Sin Cruz Verde: <span>15.6 sem</span></div>
+    </div>
+    <div class="ns-card">
+      <div class="ns-icon">🚀</div>
+      <div class="ns-tag">TtA · Time to Activation</div>
+      <div class="ns-val warn">18.9 <span class="u">sem</span></div>
+      <div class="ns-target bad">Meta ≤ 10 sem · 8 clientes</div>
+      <div class="ns-meta">Kickoff → Distribución go-live</div>
+      <div class="ns-sub">Sin Cruz Verde: <span>18.9 sem</span></div>
+    </div>
+  </div>
+
+  <div class="defs">
+    <strong>TtFF</strong> kickoff → forecast activo &nbsp;·&nbsp; <strong>TtA</strong> kickoff → distribución go-live &nbsp;·&nbsp; <strong>TTV</strong> kickoff → activación módulo compras &nbsp;·&nbsp; <strong>Contador</strong> sem. restantes &nbsp;·&nbsp; <em style="color:var(--mu)">real</em> = ejecutado &nbsp;·&nbsp; <em style="color:var(--mu)">est.</em> = planeado &nbsp;·&nbsp; ⚠️ = hito vencido sin completar
+  </div>
+  <div class="outlier-note">
+    <strong>Cruz Verde</strong> (kickoff ene 2025 · 68.3 sem TTV) se incluye en el promedio pero se marca como outlier visual. Sin CV: <strong>TtFF 15.6 · TtA 18.9 · TTV 24.3 sem</strong>. Hitos vencidos sin completar → marcados ⚠️ Atrasado: Neto, Fybeca, Puppis Col.
+  </div>
+
+  <div class="slabel">Pipeline · semana 13 abr 2026</div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-n" style="color:var(--ac)">9</div><div class="kpi-l">Clientes activos</div></div>
+    <div class="kpi"><div class="kpi-n" style="color:var(--gr)">1</div><div class="kpi-l">Go-live completo</div></div>
+    <div class="kpi"><div class="kpi-n" style="color:var(--am)">4</div><div class="kpi-l">En progreso</div></div>
+    <div class="kpi"><div class="kpi-n" style="color:var(--re)">4</div><div class="kpi-l">Atrasado</div></div>
+  </div>
+
+  <div class="slabel">Estado por cliente</div>
+  <div class="cgrid">
+
+    <!-- CRUZ VERDE -->
+    <div class="cc outlier">
+      <div class="cc-top">
+        <div><div class="cc-name">Cruz Verde <span style="font-size:9px;color:var(--am);font-family:'DM Mono',monospace">outlier</span></div><div class="cc-meta">Colombia 🇨🇴 · kickoff 07 ene 2025</div></div>
+        <div class="cc-right"><span class="badge b-re">Atrasado</span><span class="golive gl-hot">2.4 sem → go-live</span></div>
+      </div>
+      <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:55%;background:var(--ac)"></div></div><span class="pp">55%</span></div>
+      <div class="prow"><span class="pl">Forecast</span><div class="pt"><div class="pf" style="width:100%;background:var(--gr)"></div></div><span class="pp">✓</span></div>
+      <div class="prow"><span class="pl">Distribución</span><div class="pt"><div class="pf" style="width:60%;background:var(--am)"></div></div><span class="pp">60%</span></div>
+      <div class="prow"><span class="pl">Compras</span><div class="pt"><div class="pf" style="width:30%;background:var(--am)"></div></div><span class="pp">30%</span></div>
+      <div class="cc-metrics">
+        <div class="m-item"><div class="m-val na">—</div><div class="m-lbl">TtFF sem</div></div>
+        <div class="m-item"><div class="m-val na">—</div><div class="m-lbl">TtA sem</div></div>
+        <div class="m-item"><div class="m-val out">68.3</div><div class="m-lbl">TTV sem</div></div>
+      </div>
+    </div>
+
+    <!-- FYBECA -->
+    <div class="cc outlier">
+      <div class="cc-top">
+        <div><div class="cc-name">Fybeca + Sana Sana <span style="font-size:9px;color:var(--am);font-family:'DM Mono',monospace">*</span></div><div class="cc-meta">Ecuador 🇪🇨 · kickoff 19 ago 2025</div></div>
+        <div class="cc-right"><span class="badge b-re">Atrasado</span><span class="golive gl-hot">2.4 sem → go-live</span></div>
+      </div>
+      <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:75%;background:var(--gr)"></div></div><span class="pp">75%</span></div>
+      <div class="prow"><span class="pl">Forecast</span><div class="pt"><div class="pf" style="width:80%;background:var(--re)"></div></div><span class="pp">⚠️</span></div>
+      <div class="cc-metrics">
+        <div class="m-item"><div class="m-val" style="color:var(--re)">13.4⚠</div><div class="m-lbl">TtFF sem</div></div>
+        <div class="m-item"><div class="m-val est">36.3</div><div class="m-lbl">TtA sem</div></div>
+        <div class="m-item"><div class="m-val est">36.3</div><div class="m-lbl">TTV sem</div></div>
+      </div>
+    </div>
+
+    <!-- NETO -->
+    <div class="cc outlier">
+      <div class="cc-top">
+        <div><div class="cc-name">Neto <span style="font-size:9px;color:var(--am);font-family:'DM Mono',monospace">*</span></div><div class="cc-meta">México 🇲🇽 · kickoff 05 jul 2025</div></div>
+        <div class="cc-right"><span class="badge b-re">Atrasado</span><span class="golive gl-hot">1.6 sem → go-live</span></div>
+      </div>
+      <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:61%;background:var(--ac)"></div></div><span class="pp">61%</span></div>
+      <div class="prow"><span class="pl">Forecast</span><div class="pt"><div class="pf" style="width:93%;background:var(--re)"></div></div><span class="pp">⚠️</span></div>
+      <div class="prow"><span class="pl">Distribución</span><div class="pt"><div class="pf" style="width:78%;background:var(--re)"></div></div><span class="pp">⚠️</span></div>
+      <div class="prow"><span class="pl">Compras</span><div class="pt"><div class="pf" style="width:40%;background:var(--am)"></div></div><span class="pp">40%</span></div>
+      <div class="cc-metrics">
+        <div class="m-item"><div class="m-val real" style="color:var(--re)">28.9⚠</div><div class="m-lbl">TtFF sem</div></div>
+        <div class="m-item"><div class="m-val real" style="color:var(--re)">29.3⚠</div><div class="m-lbl">TtA sem</div></div>
+        <div class="m-item"><div class="m-val est">41.9</div><div class="m-lbl">TTV sem</div></div>
+      </div>
+    </div>
+
+    <!-- PUPPIS COL + ARG: lado a lado, occupan 1 slot cada uno, agrupados -->
+    <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+
+      <!-- PUPPIS COL -->
+      <div class="cc golive-done outlier">
+        <div class="cc-top">
+          <div><div class="cc-name">Puppis Col <span style="font-size:9px;color:var(--am);font-family:'DM Mono',monospace">*</span></div><div class="cc-meta">Colombia 🇨🇴 · kickoff 03 sep 2025</div></div>
+          <div class="cc-right"><span class="badge b-re">Atrasado</span><span class="golive gl-na">Compras vencida ⚠️</span></div>
+        </div>
+        <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:90%;background:var(--am)"></div></div><span class="pp">90%</span></div>
+        <div class="prow"><span class="pl">Forecast</span><div class="pt"><div class="pf" style="width:100%;background:var(--gr)"></div></div><span class="pp">✓</span></div>
+        <div class="prow"><span class="pl">Compras</span><div class="pt"><div class="pf" style="width:70%;background:var(--re)"></div></div><span class="pp">⚠️</span></div>
+        <div class="cc-metrics">
+          <div class="m-item"><div class="m-val real">13.3</div><div class="m-lbl">TtFF sem</div></div>
+          <div class="m-item"><div class="m-val real">23.3</div><div class="m-lbl">TtA sem</div></div>
+          <div class="m-item"><div class="m-val" style="color:var(--re)">23.3⚠</div><div class="m-lbl">TTV sem</div></div>
+        </div>
+      </div>
+
+      <!-- PUPPIS ARG -->
+      <div class="cc">
+        <div class="cc-top">
+          <div><div class="cc-name">Puppis Arg</div><div class="cc-meta">Argentina 🇦🇷 · kickoff 02 mar 2026</div></div>
+          <div class="cc-right"><span class="badge b-gr">Cerca go-live</span><span class="golive gl-mid">7.0 sem → go-live</span></div>
+        </div>
+        <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:80%;background:var(--gr)"></div></div><span class="pp">80%</span></div>
+        <div class="prow"><span class="pl">Forecast</span><div class="pt"><div class="pf" style="width:100%;background:var(--gr)"></div></div><span class="pp">✓</span></div>
+        <div class="cc-metrics">
+          <div class="m-item"><div class="m-val real">8.4</div><div class="m-lbl">TtFF sem</div></div>
+          <div class="m-item"><div class="m-val est">7.0</div><div class="m-lbl">TtA sem</div></div>
+          <div class="m-item"><div class="m-val est">13.0</div><div class="m-lbl">TTV sem</div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="cc outlier">
+      <div class="cc-top">
+        <div><div class="cc-name">Mi Comisariato <span style="font-size:9px;color:var(--am);font-family:'DM Mono',monospace">*</span></div><div class="cc-meta">Colombia 🇨🇴 · kickoff 08 sep 2025 · 31 sem</div></div>
+        <div class="cc-right"><span class="badge b-re">Atrasado</span><span class="golive gl-mid">7.0 sem → go-live</span></div>
+      </div>
+      <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:38%;background:var(--ac)"></div></div><span class="pp">38%</span></div>
+      <div class="prow"><span class="pl">Forecast</span><div class="pt"><div class="pf" style="width:60%;background:var(--am)"></div></div><span class="pp">60%</span></div>
+      <div class="cc-metrics">
+        <div class="m-item"><div class="m-val out">33.4</div><div class="m-lbl">TtFF sem</div></div>
+        <div class="m-item"><div class="m-val out">32.0</div><div class="m-lbl">TtA sem</div></div>
+        <div class="m-item"><div class="m-val out">38.0</div><div class="m-lbl">TTV sem</div></div>
+      </div>
+    </div>
+
+    <!-- MAJA -->
+    <div class="cc">
+      <div class="cc-top">
+        <div><div class="cc-name">MAJA</div><div class="cc-meta">Colombia 🇨🇴 · kickoff 24 feb 2026</div></div>
+        <div class="cc-right"><span class="badge b-gr">On time</span><span class="golive gl-mid">7.0 sem → go-live</span></div>
+      </div>
+      <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:70%;background:var(--gr)"></div></div><span class="pp">70%</span></div>
+      <div class="prow"><span class="pl">Forecast</span><div class="pt"><div class="pf" style="width:20%;background:var(--am)"></div></div><span class="pp">20%</span></div>
+      <div class="prow"><span class="pl">Distribución</span><div class="pt"><div class="pf" style="width:50%;background:var(--ac)"></div></div><span class="pp">50%</span></div>
+      <div class="cc-metrics">
+        <div class="m-item"><div class="m-val est">9.3</div><div class="m-lbl">TtFF sem</div></div>
+        <div class="m-item"><div class="m-val est">7.9</div><div class="m-lbl">TtA sem</div></div>
+        <div class="m-item"><div class="m-val est">13.9</div><div class="m-lbl">TTV sem</div></div>
+      </div>
+    </div>
+
+    <!-- TUVACOL -->
+    <div class="cc">
+      <div class="cc-top">
+        <div><div class="cc-name">Tuvacol</div><div class="cc-meta">Colombia 🇨🇴 · kickoff 24 feb 2026</div></div>
+        <div class="cc-right"><span class="badge b-am">En progreso</span><span class="golive gl-mid">7.0 sem → go-live</span></div>
+      </div>
+      <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:45%;background:var(--ac)"></div></div><span class="pp">45%</span></div>
+      <div class="prow"><span class="pl">Forecast</span><div class="pt"><div class="pf" style="width:100%;background:var(--gr)"></div></div><span class="pp">✓</span></div>
+      <div class="cc-metrics">
+        <div class="m-item"><div class="m-val real">9.3</div><div class="m-lbl">TtFF sem</div></div>
+        <div class="m-item"><div class="m-val est">7.9</div><div class="m-lbl">TtA sem</div></div>
+        <div class="m-item"><div class="m-val est">13.9</div><div class="m-lbl">TTV sem</div></div>
+      </div>
+    </div>
+
+    <!-- 3B -->
+    <div class="cc">
+      <div class="cc-top">
+        <div><div class="cc-name">Tiendas 3B</div><div class="cc-meta">Colombia 🇨🇴 · kickoff 24 feb 2026</div></div>
+        <div class="cc-right"><span class="badge b-gr">Cerca go-live</span><span class="golive gl-mid">7.0 sem → go-live</span></div>
+      </div>
+      <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:80%;background:var(--gr)"></div></div><span class="pp">80%</span></div>
+      <div class="prow"><span class="pl">Forecast</span><div class="pt"><div class="pf" style="width:20%;background:var(--am)"></div></div><span class="pp">20%</span></div>
+      <div class="cc-metrics">
+        <div class="m-item"><div class="m-val est">9.3</div><div class="m-lbl">TtFF sem</div></div>
+        <div class="m-item"><div class="m-val est">7.9</div><div class="m-lbl">TtA sem</div></div>
+        <div class="m-item"><div class="m-val est">13.9</div><div class="m-lbl">TTV sem</div></div>
+      </div>
+    </div>
+
+    <!-- MICORRAL -->
+    <div class="cc">
+      <div class="cc-top">
+        <div><div class="cc-name">MiCorral</div><div class="cc-meta">Colombia 🇨🇴 · kickoff 02 mar 2026</div></div>
+        <div class="cc-right"><span class="badge b-am">Atrasado</span><span class="golive gl-mid">7.0 sem → go-live</span></div>
+      </div>
+      <div class="prow"><span class="pl">General</span><div class="pt"><div class="pf" style="width:30%;background:var(--ac)"></div></div><span class="pp">30%</span></div>
+      <div class="prow"><span class="pl">Forecast</span><div class="pt"><div class="pf" style="width:30%;background:var(--am)"></div></div><span class="pp">30%</span></div>
+      <div class="cc-metrics">
+        <div class="m-item"><div class="m-val est">8.4</div><div class="m-lbl">TtFF sem</div></div>
+        <div class="m-item"><div class="m-val est">7.0</div><div class="m-lbl">TtA sem</div></div>
+        <div class="m-item"><div class="m-val est">13.0</div><div class="m-lbl">TTV sem</div></div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- CHART -->
+  <div class="chart-section">
+    <div class="slabel">Camino al go-live de Compras — de más lejos a más cerca</div>
+    <p style="font-size:11px;color:var(--mu2);margin-bottom:1.25rem;line-height:1.6">Azul = semanas transcurridas desde kickoff · Ámbar/Verde = semanas restantes · Verde claro = go-live alcanzado · Línea = meta TTV 24 sem</p>
+    <div style="display:flex;gap:1.25rem;margin-bottom:1.5rem;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--mu2)"><div style="width:13px;height:11px;border-radius:2px;background:#5b8fff;opacity:.8"></div>Transcurridas</div>
+      <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--mu2)"><div style="width:13px;height:11px;border-radius:2px;background:#f5a623"></div>Restantes</div>
+      <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--mu2)"><div style="width:13px;height:11px;border-radius:2px;background:#3ecf8e"></div>Restantes &lt; 3 sem</div>
+      <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--mu2)"><div style="width:13px;height:11px;border-radius:2px;background:#3ecf8e;opacity:.4"></div>Go-live alcanzado</div>
+    </div>
+    <div id="chart"></div>
+  </div>
+
+  <div style="font-size:11px;color:var(--mu);text-align:center;margin-top:3rem;font-family:'DM Mono',monospace">
+    dashboard · actualización semanal · celes cs &amp; implementaciones · 9 clientes · puppis col+arg = 1 · outlier visual = cruz verde
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var MAX=75, META=24, metaPct=(META/MAX)*100;
+  var clients=[
+    {name:'Cruz Verde *',    flag:'🇨🇴', out:true,  el:65.9, rem:2.4,  ttv:68.3, done:false},
+    {name:'Neto *',          flag:'🇲🇽', out:true,  el:40.3, rem:1.6,  ttv:41.9, done:false},
+    {name:'Fybeca *',        flag:'🇪🇨', out:true,  el:33.9, rem:2.4,  ttv:36.3, done:false},
+    {name:'Mi Comisariato *',flag:'🇨🇴', out:true,  el:31.0, rem:7.0,  ttv:38.0, done:false},
+    {name:'Puppis Col *',    flag:'🇨🇴', out:true,  el:23.3, rem:0,    ttv:23.3, done:false},
+    {name:'MAJA',            flag:'🇨🇴', out:false, el:6.9,  rem:7.0,  ttv:13.9, done:false},
+    {name:'Tuvacol',         flag:'🇨🇴', out:false, el:6.9,  rem:7.0,  ttv:13.9, done:false},
+    {name:'Tiendas 3B',      flag:'🇨🇴', out:false, el:6.9,  rem:7.0,  ttv:13.9, done:false},
+    {name:'MiCorral',        flag:'🇨🇴', out:false, el:6.0,  rem:7.0,  ttv:13.0, done:false},
+    {name:'Puppis Arg',      flag:'🇦🇷', out:false, el:6.0,  rem:7.0,  ttv:13.0, done:false},
+  ];
+  var chart=document.getElementById('chart');
+  clients.forEach(function(c){
+    var elPct=Math.min((c.el/MAX)*100,100);
+    var remPct=c.rem!=null&&c.rem>0?Math.min((c.rem/MAX)*100,100-elPct):null;
+    var near=c.rem>0&&c.rem<3;
+    var remColor=near?'#3ecf8e':'#f5a623';
+    var ttvPct=Math.min((c.ttv/MAX)*100,100);
+    var overMeta=c.ttv>META;
+    var row=document.createElement('div');
+    row.className='chart-row';
+    var barInner=c.rem===0
+      ?'<div style="height:100%;width:'+ttvPct+'%;background:#3ecf8e;opacity:.5;border-radius:3px"></div>'
+      :'<div style="height:100%;width:'+elPct+'%;background:'+(c.out?'#f25f5c':'#5b8fff')+';opacity:.8;border-radius:3px 0 0 3px;display:inline-block;vertical-align:top"></div>'
+       +(c.rem>0?'<div style="height:100%;width:'+Math.min((c.rem/MAX)*100,100-elPct)+'%;background:'+remColor+';opacity:.95;border-radius:0 3px 3px 0;display:inline-block;vertical-align:top"></div>':'');
+    var remTxt=c.rem===0?'✓ go-live':(c.rem+' sem rest.');
+    var remColor2=c.rem===0?'var(--gr)':near?'#3ecf8e':'#f5a623';
+    row.innerHTML=
+      '<div><div class="cr-name'+(c.out?' out':'')+'">'+c.name+'</div><div class="cr-sub">'+c.flag+' · TTV est. '+c.ttv+' sem</div></div>'
+      +'<div class="bar-area">'
+        +'<div style="position:absolute;top:0;bottom:0;left:'+metaPct+'%;width:1.5px;background:rgba(255,255,255,0.2);z-index:2">'
+          +'<span style="position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:8px;font-family:DM Mono,monospace;color:var(--mu);white-space:nowrap">meta 24</span>'
+        +'</div>'
+        +(overMeta?'<div style="position:absolute;top:50%;transform:translateY(-50%);left:'+metaPct+'%;width:'+(ttvPct-metaPct)+'%;height:14px;background:rgba(242,95,92,0.12);z-index:1;border-radius:0 3px 3px 0"></div>':'')
+        +'<div style="position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:14px;background:var(--s2);border-radius:3px;overflow:hidden;display:flex">'+barInner+'</div>'
+      +'</div>'
+      +'<div class="cr-nums"><div class="cr-el">'+c.ttv+' sem TTV</div><div class="cr-rem" style="color:'+remColor2+'">'+remTxt+'</div></div>';
+    chart.appendChild(row);
+  });
+  chart.lastChild.style.borderBottom='1px solid var(--b1)';
+})();
+</script>
+</body>
+</html>
