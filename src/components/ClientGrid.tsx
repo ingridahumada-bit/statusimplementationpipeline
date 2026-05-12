@@ -14,6 +14,7 @@ const DISPLAY_ORDER = [
   "Tuvacol",
   "Tiendas 3B",
   "MiCorral",
+  "Farmanorte",
 ];
 
 export default function ClientGrid({ clients }: { clients: Client[] }) {
