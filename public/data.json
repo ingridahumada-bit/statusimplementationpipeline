@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-05-11",
+  "updated_at": "2026-05-12",
   "averages": {
-    "ttff": 13.8,
-    "tta": 23.6,
-    "ttv": 29.6,
-    "ttv_no_cv": 24.2,
-    "n_ttff": 7,
-    "n_tta": 9,
-    "n_ttv": 9
+    "ttff": 13.6,
+    "tta": 22.8,
+    "ttv": 28.6,
+    "ttv_no_cv": 23.7,
+    "n_ttff": 8,
+    "n_tta": 10,
+    "n_ttv": 10
   },
   "clients": [
     {
@@ -39,8 +39,8 @@
       "ttff_sem": null,
       "tta_sem": 69.4,
       "ttv_sem": 72.6,
-      "elapsed_sem": 69.9,
-      "remaining_sem": 2.7,
+      "elapsed_sem": 70.0,
+      "remaining_sem": 2.6,
       "progress_pct": 19,
       "status": "atrasado",
       "atrasado_por": [
@@ -76,7 +76,7 @@
       "ttff_sem": 13.4,
       "tta_sem": 16.4,
       "ttv_sem": 20.1,
-      "elapsed_sem": 37.9,
+      "elapsed_sem": 38.0,
       "remaining_sem": 0,
       "progress_pct": 85,
       "status": "golive",
@@ -111,8 +111,8 @@
       "ttff_sem": 33.4,
       "tta_sem": 37.3,
       "ttv_sem": 41.0,
-      "elapsed_sem": 35.0,
-      "remaining_sem": 6.0,
+      "elapsed_sem": 35.1,
+      "remaining_sem": 5.9,
       "progress_pct": 38,
       "status": "atrasado",
       "atrasado_por": [
@@ -148,8 +148,8 @@
       "ttff_sem": 9.3,
       "tta_sem": 7.9,
       "ttv_sem": 13.9,
-      "elapsed_sem": 10.9,
-      "remaining_sem": 3.0,
+      "elapsed_sem": 11.0,
+      "remaining_sem": 2.9,
       "progress_pct": 26,
       "status": "atrasado",
       "atrasado_por": [
@@ -186,8 +186,8 @@
       "ttff_sem": 9.3,
       "tta_sem": 7.9,
       "ttv_sem": 13.9,
-      "elapsed_sem": 10.9,
-      "remaining_sem": 3.0,
+      "elapsed_sem": 11.0,
+      "remaining_sem": 2.9,
       "progress_pct": 34,
       "status": "atrasado",
       "atrasado_por": [
@@ -223,8 +223,8 @@
       "ttff_sem": 9.3,
       "tta_sem": 7.9,
       "ttv_sem": 13.9,
-      "elapsed_sem": 10.9,
-      "remaining_sem": 3.0,
+      "elapsed_sem": 11.0,
+      "remaining_sem": 2.9,
       "progress_pct": 20,
       "status": "atrasado",
       "atrasado_por": [
@@ -261,8 +261,8 @@
       "ttff_sem": 8.4,
       "tta_sem": 7.0,
       "ttv_sem": 13.0,
-      "elapsed_sem": 10.0,
-      "remaining_sem": 3.0,
+      "elapsed_sem": 10.1,
+      "remaining_sem": 2.9,
       "progress_pct": 11,
       "status": "atrasado",
       "atrasado_por": [
@@ -299,7 +299,7 @@
       "ttff_sem": 13.3,
       "tta_sem": 16.3,
       "ttv_sem": 35.3,
-      "elapsed_sem": 35.7,
+      "elapsed_sem": 35.9,
       "remaining_sem": 0,
       "progress_pct": 82,
       "status": "atrasado",
@@ -336,7 +336,7 @@
       "ttff_sem": 8.4,
       "tta_sem": 7.0,
       "ttv_sem": 8.4,
-      "elapsed_sem": 10.0,
+      "elapsed_sem": 10.1,
       "remaining_sem": 0,
       "progress_pct": 73,
       "status": "atrasado",
@@ -344,6 +344,41 @@
         "distribucion",
         "compras"
       ]
+    },
+    {
+      "name": "Farmanorte",
+      "flag": "🇨🇴",
+      "country": "Colombia",
+      "kickoff": "2026-04-23",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "notion",
+      "forecast": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-07-20",
+        "completada": false,
+        "atrasado": false
+      },
+      "distribucion": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-08-10",
+        "completada": false,
+        "atrasado": false
+      },
+      "compras": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-09-11",
+        "completada": false,
+        "atrasado": false
+      },
+      "ttff_sem": 12.6,
+      "tta_sem": 15.6,
+      "ttv_sem": 20.1,
+      "elapsed_sem": 2.7,
+      "remaining_sem": 17.4,
+      "progress_pct": 5,
+      "status": "en_progreso",
+      "atrasado_por": []
     },
     {
       "name": "Neto",
@@ -374,7 +409,7 @@
       "ttff_sem": null,
       "tta_sem": 42.3,
       "ttv_sem": 42.3,
-      "elapsed_sem": 44.3,
+      "elapsed_sem": 44.4,
       "remaining_sem": 0,
       "progress_pct": 81,
       "status": "atrasado",

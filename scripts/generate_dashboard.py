@@ -27,6 +27,7 @@ CRONOGRAMAS = {
     "MiCorral":        "a4663390-2d83-823e-b995-81ad171a8fab",
     "Puppis Col":      "27663390-2d83-80f0-b1d2-d8ca322d4ba1",
     "Puppis Arg":      "d3963390-2d83-82c1-810f-016ef9c02381",
+    "Farmanorte":      "35263390-2d83-8134-baf7-f013da250296",
 }
 
 CLIENT_META = {
@@ -40,6 +41,7 @@ CLIENT_META = {
     "Puppis Col":     {"flag": "🇨🇴", "country": "Colombia",   "kickoff": "2025-09-03", "is_outlier_visual": False, "in_average": True},
     "Puppis Arg":     {"flag": "🇦🇷", "country": "Argentina",  "kickoff": "2026-03-02", "is_outlier_visual": False, "in_average": False},
     "Neto":           {"flag": "🇲🇽", "country": "México",     "kickoff": "2025-07-05", "is_outlier_visual": False, "in_average": True, "gsheet": "1azDG7zcRHqFv6s6jufBp5w1EemeBqM2yahv040jCgyc", "gid": "1934856518"},
+    "Farmanorte":     {"flag": "🇨🇴", "country": "Colombia",  "kickoff": "2026-04-23", "is_outlier_visual": False, "in_average": True},
 }
 
 HITO_ALIASES = {
@@ -96,8 +98,8 @@ def get_status(page: dict) -> str:
 
 
 def get_fecha_fin(page: dict) -> str | None:
-    # Some DBs use "Fecha Fin", others use "Fin" — try explicit names first
-    for key in ("Fecha Fin", "Fin"):
+    # Different DBs use different field names for end date
+    for key in ("Fecha Fin", "Fin", "Plazo"):
         prop = page["properties"].get(key, {})
         if prop.get("type") == "date" and prop.get("date"):
             d = prop["date"]
@@ -114,7 +116,7 @@ def weeks_between(d1: str, d2: str) -> float:
 
 def build_hito(estado: str, fecha_fin: str | None) -> dict:
     today = date.today().isoformat()
-    completada = estado in ("Completada", "Completado")
+    completada = estado in ("Completada", "Completado", "Listo")
     atrasado = bool(fecha_fin and fecha_fin < today and not completada)
     return {
         "estado": estado,
@@ -136,7 +138,7 @@ def count_progress(pages: list[dict]) -> int:
     total = len(pages)
     if not total:
         return 0
-    done = sum(1 for p in pages if get_status(p) in ("Completada", "Completado"))
+    done = sum(1 for p in pages if get_status(p) in ("Completada", "Completado", "Listo"))
     return round((done / total) * 100)
 
 
