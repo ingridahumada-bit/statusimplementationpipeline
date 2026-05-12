@@ -144,9 +144,11 @@ def count_progress(pages: list[dict]) -> int:
 
 def build_client_metrics(name: str, kickoff: str, forecast: dict, distribucion: dict, compras: dict, progress_pct: int) -> dict:
     today = date.today().isoformat()
-    ttff_sem = weeks_between(kickoff, forecast["fecha_fin"])   if forecast["completada"] and forecast["fecha_fin"]   else (weeks_between(kickoff, forecast["fecha_fin"])   if forecast["fecha_fin"]   else None)
-    tta_sem  = weeks_between(kickoff, distribucion["fecha_fin"]) if distribucion["completada"] and distribucion["fecha_fin"] else (weeks_between(kickoff, distribucion["fecha_fin"]) if distribucion["fecha_fin"] else None)
-    ttv_sem  = weeks_between(kickoff, compras["fecha_fin"])    if compras["fecha_fin"]    else None
+    # Completed → actual weeks taken; not completed → projected weeks to planned date.
+    # Both cases use fecha_fin (the recorded or planned end date).
+    ttff_sem = weeks_between(kickoff, forecast["fecha_fin"])      if forecast["fecha_fin"]      else None
+    tta_sem  = weeks_between(kickoff, distribucion["fecha_fin"])  if distribucion["fecha_fin"]  else None
+    ttv_sem  = weeks_between(kickoff, compras["fecha_fin"])       if compras["fecha_fin"]       else None
 
     elapsed_sem  = weeks_between(kickoff, today)
     remaining_sem = weeks_between(today, compras["fecha_fin"]) if compras["fecha_fin"] else None

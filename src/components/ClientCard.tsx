@@ -46,7 +46,11 @@ function HitoBar({ label, hito }: { label: string; hito: Hito }) {
   );
 }
 
-function MetricChip({ label, value, target }: { label: string; value: number | null; target: number }) {
+function MetricChip({
+  label, value, target, isActual,
+}: {
+  label: string; value: number | null; target: number; isActual: boolean;
+}) {
   const badge = ttBadge(value, target);
   return (
     <div
@@ -58,7 +62,7 @@ function MetricChip({ label, value, target }: { label: string; value: number | n
         className="font-mono font-semibold text-sm"
         style={{ color: value !== null ? BADGE_COLOR[badge] : "var(--mu)" }}
       >
-        {value !== null ? `${value}s` : "—"}
+        {value !== null ? `${isActual ? "" : "~"}${value}s` : "—"}
       </span>
     </div>
   );
@@ -121,9 +125,9 @@ export default function ClientCard({ client }: { client: Client }) {
 
       {/* Metric chips footer */}
       <div className="grid grid-cols-3 gap-2 pt-1 border-t" style={{ borderColor: "var(--b1)" }}>
-        <MetricChip label="TtFF" value={client.ttff_sem} target={8}  />
-        <MetricChip label="TtA"  value={client.tta_sem}  target={10} />
-        <MetricChip label="TTV"  value={client.ttv_sem}  target={24} />
+        <MetricChip label="TtFF" value={client.ttff_sem} target={8}  isActual={client.forecast.completada}     />
+        <MetricChip label="TtA"  value={client.tta_sem}  target={10} isActual={client.distribucion.completada}  />
+        <MetricChip label="TTV"  value={client.ttv_sem}  target={24} isActual={client.compras.completada}       />
       </div>
     </div>
   );
