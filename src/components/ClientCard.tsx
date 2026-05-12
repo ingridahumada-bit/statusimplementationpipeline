@@ -1,7 +1,7 @@
 "use client";
 
 import { Client, Hito } from "@/lib/types";
-import { hitoBarColor, ttBadge } from "@/utils/metrics";
+import { hitoBarColor, ttBadge, weeksBetween } from "@/utils/metrics";
 
 const BADGE_BG: Record<string, string> = {
   green: "#3ecf8e22",
@@ -123,11 +123,26 @@ export default function ClientCard({ client }: { client: Client }) {
         <HitoBar label="Compras"      hito={client.compras}      />
       </div>
 
-      {/* Metric chips footer */}
+      {/* Metric chips footer — each metric = weeks from kickoff to the stage's fecha_fin */}
       <div className="grid grid-cols-3 gap-2 pt-1 border-t" style={{ borderColor: "var(--b1)" }}>
-        <MetricChip label="TtFF" value={client.ttff_sem} target={8}  isActual={client.forecast.completada}     />
-        <MetricChip label="TtA"  value={client.tta_sem}  target={10} isActual={client.distribucion.completada}  />
-        <MetricChip label="TTV"  value={client.ttv_sem}  target={24} isActual={client.compras.completada}       />
+        <MetricChip
+          label="TtFF"
+          value={client.forecast.fecha_fin     ? weeksBetween(client.kickoff, client.forecast.fecha_fin)     : null}
+          target={8}
+          isActual={client.forecast.completada}
+        />
+        <MetricChip
+          label="TtA"
+          value={client.distribucion.fecha_fin ? weeksBetween(client.kickoff, client.distribucion.fecha_fin) : null}
+          target={10}
+          isActual={client.distribucion.completada}
+        />
+        <MetricChip
+          label="TTV"
+          value={client.compras.fecha_fin      ? weeksBetween(client.kickoff, client.compras.fecha_fin)      : null}
+          target={24}
+          isActual={client.compras.completada}
+        />
       </div>
     </div>
   );
