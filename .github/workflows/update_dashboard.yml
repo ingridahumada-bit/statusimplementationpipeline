@@ -2,15 +2,21 @@ name: Actualizar Dashboard
 
 on:
   schedule:
-    - cron: '0 8 */3 * *'   # cada 3 días a las 8am UTC
-  workflow_dispatch:          # trigger manual desde Actions UI
+    - cron: '0 8 */3 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
     steps:
       - uses: actions/checkout@v4
 
@@ -19,7 +25,7 @@ jobs:
           python-version: '3.11'
 
       - name: Instalar dependencias Python
-        run: pip install requests pandas openpyxl
+        run: pip install requests
 
       - name: Generar data.json
         env:
@@ -37,8 +43,18 @@ jobs:
       - name: Build Next.js
         run: npm run build
 
-      - name: Deploy a GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

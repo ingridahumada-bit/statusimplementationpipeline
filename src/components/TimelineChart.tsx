@@ -87,9 +87,21 @@ export default function TimelineChart({ clients }: { clients: Client[] }) {
                 </div>
                 <span
                   className="text-xs font-mono w-16 flex-shrink-0"
-                  style={{ color: c.remaining_sem === 0 ? "var(--gr)" : "var(--mu2)" }}
+                  style={{
+                    color: c.status === "golive"
+                      ? "var(--gr)"
+                      : c.remaining_sem === 0
+                      ? "var(--re)"
+                      : "var(--mu2)"
+                  }}
                 >
-                  {c.remaining_sem === 0 ? "✓ compras" : c.remaining_sem !== null ? `${c.remaining_sem}s rest.` : "—"}
+                  {c.status === "golive"
+                    ? "✓ go-live"
+                    : c.remaining_sem === 0
+                    ? "⚠ vencida"
+                    : c.remaining_sem !== null
+                    ? `${c.remaining_sem}s rest.`
+                    : "—"}
                 </span>
               </div>
             );
