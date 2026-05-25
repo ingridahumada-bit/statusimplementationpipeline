@@ -44,16 +44,23 @@ CLIENT_META = {
     "Farmanorte":     {"flag": "🇨🇴", "country": "Colombia",  "kickoff": "2026-04-23", "is_outlier_visual": False, "in_average": True},
 }
 
+# Aliases in priority order: first alias that matches any page wins.
+# "Pruebas" rows come first because they represent the final acceptance gate
+# (section 6 in Fybeca-style DBs), which is later and more definitive than "Activación".
 HITO_ALIASES = {
     "forecast": [
+        "pruebas forecast",
         "activación módulo de forecast",
         "activación y configuración módulo de pronóstico de demanda",
     ],
     "distribucion": [
+        "pruebas distribución",
+        "pruebas distribucion",
         "activación módulo de distribución",
         "despliegue en productivo: módulo distribución",
     ],
     "compras": [
+        "pruebas compras",
         "activación módulo de compras",
         "pruebas y aceptación módulo de compras",
     ],
@@ -132,10 +139,12 @@ def build_hito(estado: str, fecha_fin: str | None) -> dict:
 
 
 def find_hito_in_pages(pages: list[dict], aliases: list[str]) -> tuple[str, str | None]:
-    for page in pages:
-        title = get_title(page).lower().strip()
-        if any(alias in title for alias in aliases):
-            return get_status(page), get_fecha_fin(page)
+    # Search alias-by-alias so earlier aliases (higher priority) always win,
+    # regardless of the order Notion returns pages.
+    for alias in aliases:
+        for page in pages:
+            if alias in get_title(page).lower().strip():
+                return get_status(page), get_fecha_fin(page)
     return "", None
 
 
