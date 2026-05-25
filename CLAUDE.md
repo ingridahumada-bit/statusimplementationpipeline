@@ -62,8 +62,9 @@ Notion property names vary by client database. Always iterate by **type**, not b
 ```python
 def get_title(page):        # type == "title"
 def get_status(page):       # type == "status", keys "Estado" or "Status"
-def get_fecha_fin(page):    # type == "date" — use end ?? start
-                            # NOTE: "Fin" is a formula field, not a date — skip it
+def get_fecha_fin(page):    # checks "Fecha Fin" then "Fin" then "Plazo"
+                            # "Fecha Fin" is a formula in some DBs → reads formula.date.start
+                            # "Fin" is a plain date in others → reads date.start/end
 ```
 
 ### Milestone detection

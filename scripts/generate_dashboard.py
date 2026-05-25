@@ -98,12 +98,17 @@ def get_status(page: dict) -> str:
 
 
 def get_fecha_fin(page: dict) -> str | None:
-    # Different DBs use different field names for end date
     for key in ("Fecha Fin", "Fin", "Plazo"):
         prop = page["properties"].get(key, {})
-        if prop.get("type") == "date" and prop.get("date"):
+        t = prop.get("type")
+        if t == "date" and prop.get("date"):
             d = prop["date"]
             return d.get("end") or d.get("start")
+        if t == "formula":
+            f = prop.get("formula", {})
+            if f.get("type") == "date" and f.get("date"):
+                d = f["date"]
+                return d.get("end") or d.get("start")
     return None
 
 
