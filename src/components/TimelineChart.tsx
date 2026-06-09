@@ -98,7 +98,7 @@ export default function TimelineChart({ clients }: { clients: Client[] }) {
                   {c.status === "golive"
                     ? "✓ go-live"
                     : c.remaining_sem === 0
-                    ? "⚠ vencida"
+                    ? "En estabilización"
                     : c.remaining_sem !== null
                     ? `${c.remaining_sem}s rest.`
                     : "—"}
