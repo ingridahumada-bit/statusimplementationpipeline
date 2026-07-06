@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-05-12",
+  "updated_at": "2026-07-06",
   "averages": {
-    "ttff": 13.6,
-    "tta": 22.8,
-    "ttv": 28.6,
-    "ttv_no_cv": 23.7,
-    "n_ttff": 8,
+    "ttff": 17.6,
+    "tta": 27.2,
+    "ttv": 32.9,
+    "ttv_no_cv": 28.5,
+    "n_ttff": 9,
     "n_tta": 10,
     "n_ttv": 10
   },
@@ -34,17 +34,18 @@
         "estado": "En progreso",
         "fecha_fin": "2026-05-30",
         "completada": false,
-        "atrasado": false
+        "atrasado": true
       },
       "ttff_sem": null,
       "tta_sem": 69.4,
       "ttv_sem": 72.6,
-      "elapsed_sem": 70.0,
-      "remaining_sem": 2.6,
+      "elapsed_sem": 77.9,
+      "remaining_sem": 0,
       "progress_pct": 19,
       "status": "atrasado",
       "atrasado_por": [
-        "distribucion"
+        "distribucion",
+        "compras"
       ]
     },
     {
@@ -57,30 +58,32 @@
       "source": "notion",
       "forecast": {
         "estado": "Completada",
-        "fecha_fin": "2025-11-21",
+        "fecha_fin": "2025-12-12",
         "completada": true,
         "atrasado": false
       },
       "distribucion": {
         "estado": "Completada",
-        "fecha_fin": "2025-12-12",
+        "fecha_fin": "2026-01-02",
         "completada": true,
         "atrasado": false
       },
       "compras": {
-        "estado": "Completada",
-        "fecha_fin": "2026-01-07",
-        "completada": true,
-        "atrasado": false
+        "estado": "En progreso",
+        "fecha_fin": "2026-04-30",
+        "completada": false,
+        "atrasado": true
       },
-      "ttff_sem": 13.4,
-      "tta_sem": 16.4,
-      "ttv_sem": 20.1,
-      "elapsed_sem": 38.0,
+      "ttff_sem": 16.4,
+      "tta_sem": 19.4,
+      "ttv_sem": 36.3,
+      "elapsed_sem": 45.9,
       "remaining_sem": 0,
-      "progress_pct": 85,
-      "status": "golive",
-      "atrasado_por": []
+      "progress_pct": 87,
+      "status": "atrasado",
+      "atrasado_por": [
+        "compras"
+      ]
     },
     {
       "name": "Mi Comisariato",
@@ -100,23 +103,25 @@
         "estado": "En progreso",
         "fecha_fin": "2026-05-27",
         "completada": false,
-        "atrasado": false
+        "atrasado": true
       },
       "compras": {
         "estado": "En progreso",
         "fecha_fin": "2026-06-22",
         "completada": false,
-        "atrasado": false
+        "atrasado": true
       },
       "ttff_sem": 33.4,
       "tta_sem": 37.3,
       "ttv_sem": 41.0,
-      "elapsed_sem": 35.1,
-      "remaining_sem": 5.9,
-      "progress_pct": 38,
+      "elapsed_sem": 43.0,
+      "remaining_sem": 0,
+      "progress_pct": 71,
       "status": "atrasado",
       "atrasado_por": [
-        "forecast"
+        "forecast",
+        "distribucion",
+        "compras"
       ]
     },
     {
@@ -129,33 +134,30 @@
       "source": "notion",
       "forecast": {
         "estado": "En progreso",
-        "fecha_fin": "2026-04-30",
-        "completada": false,
-        "atrasado": true
-      },
-      "distribucion": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-04-20",
-        "completada": false,
-        "atrasado": true
-      },
-      "compras": {
-        "estado": "No iniciada",
-        "fecha_fin": "2026-06-01",
+        "fecha_fin": "2026-07-31",
         "completada": false,
         "atrasado": false
       },
-      "ttff_sem": 9.3,
-      "tta_sem": 7.9,
-      "ttv_sem": 13.9,
-      "elapsed_sem": 11.0,
-      "remaining_sem": 2.9,
-      "progress_pct": 26,
-      "status": "atrasado",
-      "atrasado_por": [
-        "forecast",
-        "distribucion"
-      ]
+      "distribucion": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-08-14",
+        "completada": false,
+        "atrasado": false
+      },
+      "compras": {
+        "estado": "No iniciada",
+        "fecha_fin": "2026-08-21",
+        "completada": false,
+        "atrasado": false
+      },
+      "ttff_sem": 22.4,
+      "tta_sem": 24.4,
+      "ttv_sem": 25.4,
+      "elapsed_sem": 18.9,
+      "remaining_sem": 6.6,
+      "progress_pct": 27,
+      "status": "en_progreso",
+      "atrasado_por": []
     },
     {
       "name": "Tuvacol",
@@ -166,31 +168,32 @@
       "in_average": true,
       "source": "notion",
       "forecast": {
-        "estado": "Completada",
-        "fecha_fin": "2026-04-30",
-        "completada": true,
-        "atrasado": false
+        "estado": "En progreso",
+        "fecha_fin": "2026-04-03",
+        "completada": false,
+        "atrasado": true
       },
       "distribucion": {
         "estado": "En progreso",
-        "fecha_fin": "2026-04-20",
+        "fecha_fin": "2026-05-22",
         "completada": false,
         "atrasado": true
       },
       "compras": {
-        "estado": "No iniciada",
-        "fecha_fin": "2026-06-01",
+        "estado": "En progreso",
+        "fecha_fin": "2026-07-07",
         "completada": false,
         "atrasado": false
       },
-      "ttff_sem": 9.3,
-      "tta_sem": 7.9,
-      "ttv_sem": 13.9,
-      "elapsed_sem": 11.0,
-      "remaining_sem": 2.9,
-      "progress_pct": 34,
+      "ttff_sem": 5.4,
+      "tta_sem": 12.4,
+      "ttv_sem": 19.0,
+      "elapsed_sem": 18.9,
+      "remaining_sem": 0.1,
+      "progress_pct": 40,
       "status": "atrasado",
       "atrasado_por": [
+        "forecast",
         "distribucion"
       ]
     },
@@ -204,33 +207,30 @@
       "source": "notion",
       "forecast": {
         "estado": "En progreso",
-        "fecha_fin": "2026-04-30",
-        "completada": false,
-        "atrasado": true
-      },
-      "distribucion": {
-        "estado": "No iniciada",
-        "fecha_fin": "2026-04-20",
-        "completada": false,
-        "atrasado": true
-      },
-      "compras": {
-        "estado": "No iniciada",
-        "fecha_fin": "2026-06-01",
+        "fecha_fin": "2026-07-17",
         "completada": false,
         "atrasado": false
       },
-      "ttff_sem": 9.3,
-      "tta_sem": 7.9,
-      "ttv_sem": 13.9,
-      "elapsed_sem": 11.0,
-      "remaining_sem": 2.9,
-      "progress_pct": 20,
-      "status": "atrasado",
-      "atrasado_por": [
-        "forecast",
-        "distribucion"
-      ]
+      "distribucion": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-07-31",
+        "completada": false,
+        "atrasado": false
+      },
+      "compras": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-08-21",
+        "completada": false,
+        "atrasado": false
+      },
+      "ttff_sem": 20.4,
+      "tta_sem": 22.4,
+      "ttv_sem": 25.4,
+      "elapsed_sem": 18.9,
+      "remaining_sem": 6.6,
+      "progress_pct": 43,
+      "status": "en_progreso",
+      "atrasado_por": []
     },
     {
       "name": "MiCorral",
@@ -242,32 +242,33 @@
       "source": "notion",
       "forecast": {
         "estado": "En progreso",
-        "fecha_fin": "2026-04-30",
+        "fecha_fin": "2026-04-13",
         "completada": false,
         "atrasado": true
       },
       "distribucion": {
-        "estado": "No iniciada",
-        "fecha_fin": "2026-04-20",
+        "estado": "En progreso",
+        "fecha_fin": "2026-05-11",
         "completada": false,
         "atrasado": true
       },
       "compras": {
-        "estado": "No iniciada",
-        "fecha_fin": "2026-06-01",
+        "estado": "En progreso",
+        "fecha_fin": "2026-06-15",
         "completada": false,
-        "atrasado": false
+        "atrasado": true
       },
-      "ttff_sem": 8.4,
-      "tta_sem": 7.0,
-      "ttv_sem": 13.0,
-      "elapsed_sem": 10.1,
-      "remaining_sem": 2.9,
-      "progress_pct": 11,
+      "ttff_sem": 6.0,
+      "tta_sem": 10.0,
+      "ttv_sem": 15.0,
+      "elapsed_sem": 18.0,
+      "remaining_sem": 0,
+      "progress_pct": 22,
       "status": "atrasado",
       "atrasado_por": [
         "forecast",
-        "distribucion"
+        "distribucion",
+        "compras"
       ]
     },
     {
@@ -280,31 +281,31 @@
       "source": "notion",
       "forecast": {
         "estado": "Completada",
-        "fecha_fin": "2025-12-05",
+        "fecha_fin": "2025-12-19",
         "completada": true,
         "atrasado": false
       },
       "distribucion": {
-        "estado": "Completada",
-        "fecha_fin": "2025-12-26",
-        "completada": true,
-        "atrasado": false
-      },
-      "compras": {
         "estado": "En progreso",
-        "fecha_fin": "2026-05-08",
+        "fecha_fin": "2026-01-16",
         "completada": false,
         "atrasado": true
       },
-      "ttff_sem": 13.3,
-      "tta_sem": 16.3,
-      "ttv_sem": 35.3,
-      "elapsed_sem": 35.9,
+      "compras": {
+        "estado": "Completada",
+        "fecha_fin": "2026-02-06",
+        "completada": true,
+        "atrasado": false
+      },
+      "ttff_sem": 15.3,
+      "tta_sem": 19.3,
+      "ttv_sem": 22.3,
+      "elapsed_sem": 43.7,
       "remaining_sem": 0,
-      "progress_pct": 82,
+      "progress_pct": 78,
       "status": "atrasado",
       "atrasado_por": [
-        "compras"
+        "distribucion"
       ]
     },
     {
@@ -336,7 +337,7 @@
       "ttff_sem": 8.4,
       "tta_sem": 7.0,
       "ttv_sem": 8.4,
-      "elapsed_sem": 10.1,
+      "elapsed_sem": 18.0,
       "remaining_sem": 0,
       "progress_pct": 73,
       "status": "atrasado",
@@ -374,9 +375,9 @@
       "ttff_sem": 12.6,
       "tta_sem": 15.6,
       "ttv_sem": 20.1,
-      "elapsed_sem": 2.7,
-      "remaining_sem": 17.4,
-      "progress_pct": 5,
+      "elapsed_sem": 10.6,
+      "remaining_sem": 9.6,
+      "progress_pct": 7,
       "status": "en_progreso",
       "atrasado_por": []
     },
@@ -389,9 +390,9 @@
       "in_average": true,
       "source": "gsheet",
       "forecast": {
-        "estado": "",
-        "fecha_fin": null,
-        "completada": false,
+        "estado": "Completado",
+        "fecha_fin": "2026-01-09",
+        "completada": true,
         "atrasado": false
       },
       "distribucion": {
@@ -401,21 +402,19 @@
         "atrasado": false
       },
       "compras": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-04-27",
-        "completada": false,
-        "atrasado": true
+        "estado": "Completado",
+        "fecha_fin": "2026-07-02",
+        "completada": true,
+        "atrasado": false
       },
-      "ttff_sem": null,
+      "ttff_sem": 26.9,
       "tta_sem": 42.3,
-      "ttv_sem": 42.3,
-      "elapsed_sem": 44.4,
+      "ttv_sem": 51.7,
+      "elapsed_sem": 52.3,
       "remaining_sem": 0,
-      "progress_pct": 81,
-      "status": "atrasado",
-      "atrasado_por": [
-        "compras"
-      ]
+      "progress_pct": 100,
+      "status": "golive",
+      "atrasado_por": []
     }
   ]
 }

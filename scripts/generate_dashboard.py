@@ -105,7 +105,8 @@ def get_status(page: dict) -> str:
 
 
 def get_fecha_fin(page: dict) -> str | None:
-    for key in ("Fecha Fin", "Fin", "Plazo"):
+    # "Nuevo Plazo" (3B, MAJA) overrides the original planned date when present.
+    for key in ("Nuevo Plazo", "Nuevo plazo", "Fecha Fin", "Fin", "Plazo"):
         prop = page["properties"].get(key, {})
         t = prop.get("type")
         if t == "date" and prop.get("date"):
@@ -251,6 +252,7 @@ def build_neto_from_gsheet() -> dict:
     import csv, io
     resp = requests.get(url, timeout=30)
     resp.raise_for_status()
+    resp.encoding = "utf-8"  # Google's CSV export omits charset; requests defaults to ISO-8859-1 and mangles accents
     rows = list(csv.reader(io.StringIO(resp.text)))
 
     # Row 0 = group headers, Row 1 = column headers, data starts at Row 2
@@ -304,6 +306,12 @@ def build_neto_from_gsheet() -> dict:
     forecast     = build_hito(*forecast_raw)
     distribucion = build_hito(*distribucion_raw)
     compras      = build_hito(*compras_raw)
+
+    # Manual override: Neto finished implementation 2026-07-02, all activities completed.
+    # The live Google Sheet still lags behind (shows Compras as "En progreso"), so we
+    # force the final state here until the sheet itself is updated.
+    compras = build_hito("Completado", "2026-07-02")
+    progress_pct = 100
 
     kickoff = meta["kickoff"]
     client  = build_client_metrics("Neto", kickoff, forecast, distribucion, compras, progress_pct)
