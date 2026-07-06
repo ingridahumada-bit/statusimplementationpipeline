@@ -1,6 +1,7 @@
 "use client";
 
 import { Client } from "@/lib/types";
+import { isEstabilizacion } from "@/utils/metrics";
 
 const META_WEEKS = 24;
 const MAX_WEEKS  = 100;
@@ -90,6 +91,8 @@ export default function TimelineChart({ clients }: { clients: Client[] }) {
                   style={{
                     color: c.status === "golive"
                       ? "var(--gr)"
+                      : isEstabilizacion(c)
+                      ? "var(--am)"
                       : c.remaining_sem === 0
                       ? "var(--re)"
                       : "var(--mu2)"
@@ -97,7 +100,7 @@ export default function TimelineChart({ clients }: { clients: Client[] }) {
                 >
                   {c.status === "golive"
                     ? "✓ go-live"
-                    : c.remaining_sem === 0
+                    : isEstabilizacion(c)
                     ? "En estabilización"
                     : c.remaining_sem !== null
                     ? `${c.remaining_sem}s rest.`

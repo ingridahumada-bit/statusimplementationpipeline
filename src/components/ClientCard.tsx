@@ -1,7 +1,7 @@
 "use client";
 
 import { Client, Hito } from "@/lib/types";
-import { hitoBarColor, ttBadge, weeksBetween } from "@/utils/metrics";
+import { hitoBarColor, isEstabilizacion, ttBadge, weeksBetween } from "@/utils/metrics";
 
 const BADGE_BG: Record<string, string> = {
   green: "#3ecf8e22",
@@ -16,21 +16,20 @@ const BADGE_COLOR: Record<string, string> = {
   gray:  "var(--mu)",
 };
 
-function StatusBadge({ status, remainingSem }: { status: Client["status"]; remainingSem: number | null }) {
-  const isEstabilizacion = status === "atrasado" && remainingSem === 0;
+function StatusBadge({ client }: { client: Client }) {
   const map = {
     en_progreso: { label: "En progreso",       color: "var(--am)", bg: "#f5a62322" },
     atrasado:    { label: "⚠ Atrasado",         color: "var(--re)", bg: "#f25f5c22" },
     golive:      { label: "✓ Go-live",          color: "var(--gr)", bg: "#3ecf8e22" },
   };
-  if (isEstabilizacion) {
+  if (isEstabilizacion(client)) {
     return (
       <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "#f5a62322", color: "var(--am)" }}>
         En estabilización
       </span>
     );
   }
-  const s = map[status];
+  const s = map[client.status];
   return (
     <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: s.bg, color: s.color }}>
       {s.label}
@@ -104,7 +103,7 @@ export default function ClientCard({ client }: { client: Client }) {
             Kickoff {client.kickoff} · {client.elapsed_sem}s transcurridas
           </span>
         </div>
-        <StatusBadge status={client.status} remainingSem={client.remaining_sem} />
+        <StatusBadge client={client} />
       </div>
 
       {/* Progress bar */}

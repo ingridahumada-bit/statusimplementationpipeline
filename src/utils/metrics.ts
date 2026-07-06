@@ -28,3 +28,17 @@ export function hitoBarColor(completada: boolean, atrasado: boolean, estado: str
   if (estado === "En progreso" || estado === "En Progreso") return "var(--am)";
   return "var(--mu)";
 }
+
+// Post-go-live stabilization: forecast + distribución ya activados, y la
+// salida en vivo de compras está en curso — sin importar si viene atrasada.
+export function isEstabilizacion(client: {
+  forecast: { completada: boolean };
+  distribucion: { completada: boolean };
+  compras: { estado: string };
+}): boolean {
+  return (
+    client.forecast.completada &&
+    client.distribucion.completada &&
+    (client.compras.estado === "En progreso" || client.compras.estado === "En Progreso")
+  );
+}
