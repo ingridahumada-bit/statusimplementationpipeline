@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-07-06",
+  "updated_at": "2026-07-09",
   "averages": {
-    "ttff": 17.6,
-    "tta": 27.2,
-    "ttv": 32.9,
-    "ttv_no_cv": 28.5,
+    "ttff": 18.6,
+    "tta": 26.5,
+    "ttv": 32.2,
+    "ttv_no_cv": 27.7,
     "n_ttff": 9,
     "n_tta": 10,
     "n_ttv": 10
@@ -17,7 +17,7 @@
       "kickoff": "2025-01-07",
       "is_outlier_visual": true,
       "in_average": true,
-      "source": "notion",
+      "source": "celes-cronogramas",
       "forecast": {
         "estado": "Completada",
         "fecha_fin": null,
@@ -39,9 +39,12 @@
       "ttff_sem": null,
       "tta_sem": 69.4,
       "ttv_sem": 72.6,
-      "elapsed_sem": 77.9,
-      "remaining_sem": 0,
-      "progress_pct": 19,
+      "ttff_base_sem": null,
+      "tta_base_sem": 69.4,
+      "ttv_base_sem": 72.6,
+      "elapsed_sem": 78.3,
+      "remaining_sem": 0.0,
+      "progress_pct": 33,
       "status": "atrasado",
       "atrasado_por": [
         "distribucion",
@@ -55,7 +58,7 @@
       "kickoff": "2025-08-19",
       "is_outlier_visual": false,
       "in_average": true,
-      "source": "notion",
+      "source": "celes-cronogramas",
       "forecast": {
         "estado": "Completada",
         "fecha_fin": "2025-12-12",
@@ -69,30 +72,107 @@
         "atrasado": false
       },
       "compras": {
-        "estado": "En progreso",
+        "estado": "Completada",
         "fecha_fin": "2026-04-30",
-        "completada": false,
-        "atrasado": true
+        "completada": true,
+        "atrasado": false
       },
       "ttff_sem": 16.4,
       "tta_sem": 19.4,
       "ttv_sem": 36.3,
-      "elapsed_sem": 45.9,
-      "remaining_sem": 0,
-      "progress_pct": 87,
-      "status": "atrasado",
-      "atrasado_por": [
-        "compras"
-      ]
+      "ttff_base_sem": 16.4,
+      "tta_base_sem": 19.4,
+      "ttv_base_sem": 36.3,
+      "elapsed_sem": 46.3,
+      "remaining_sem": 0.0,
+      "progress_pct": 100,
+      "status": "golive",
+      "atrasado_por": []
+    },
+    {
+      "name": "Neto",
+      "flag": "🇲🇽",
+      "country": "México",
+      "kickoff": "2025-07-05",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "celes-cronogramas",
+      "forecast": {
+        "estado": "Completada",
+        "fecha_fin": "2026-01-09",
+        "completada": true,
+        "atrasado": false
+      },
+      "distribucion": {
+        "estado": "Completada",
+        "fecha_fin": "2026-04-27",
+        "completada": true,
+        "atrasado": false
+      },
+      "compras": {
+        "estado": "Completada",
+        "fecha_fin": "2026-07-02",
+        "completada": true,
+        "atrasado": false
+      },
+      "ttff_sem": 26.9,
+      "tta_sem": 42.3,
+      "ttv_sem": 51.7,
+      "ttff_base_sem": 26.9,
+      "tta_base_sem": 42.3,
+      "ttv_base_sem": 51.7,
+      "elapsed_sem": 52.7,
+      "remaining_sem": 0.0,
+      "progress_pct": 100,
+      "status": "golive",
+      "atrasado_por": []
+    },
+    {
+      "name": "MAJA",
+      "flag": "🇨🇴",
+      "country": "",
+      "kickoff": "2026-02-24",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "celes-cronogramas",
+      "forecast": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-07-31",
+        "completada": false,
+        "atrasado": false
+      },
+      "distribucion": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-08-14",
+        "completada": false,
+        "atrasado": false
+      },
+      "compras": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-08-21",
+        "completada": false,
+        "atrasado": false
+      },
+      "ttff_sem": 22.4,
+      "tta_sem": 24.4,
+      "ttv_sem": 25.4,
+      "ttff_base_sem": 22.6,
+      "tta_base_sem": 24.6,
+      "ttv_base_sem": 25.6,
+      "elapsed_sem": 19.3,
+      "remaining_sem": 6.1,
+      "progress_pct": 28,
+      "status": "en_progreso",
+      "atrasado_por": []
     },
     {
       "name": "Mi Comisariato",
       "flag": "🇨🇴",
-      "country": "Colombia",
+      "country": "",
       "kickoff": "2025-09-08",
       "is_outlier_visual": false,
       "in_average": true,
-      "source": "notion",
+      "source": "celes-cronogramas",
       "forecast": {
         "estado": "En progreso",
         "fecha_fin": "2026-04-30",
@@ -114,8 +194,11 @@
       "ttff_sem": 33.4,
       "tta_sem": 37.3,
       "ttv_sem": 41.0,
-      "elapsed_sem": 43.0,
-      "remaining_sem": 0,
+      "ttff_base_sem": 34.1,
+      "tta_base_sem": 38,
+      "ttv_base_sem": 41.7,
+      "elapsed_sem": 43.4,
+      "remaining_sem": 0.0,
       "progress_pct": 71,
       "status": "atrasado",
       "atrasado_por": [
@@ -125,197 +208,13 @@
       ]
     },
     {
-      "name": "MAJA",
-      "flag": "🇨🇴",
-      "country": "Colombia",
-      "kickoff": "2026-02-24",
-      "is_outlier_visual": false,
-      "in_average": true,
-      "source": "notion",
-      "forecast": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-07-31",
-        "completada": false,
-        "atrasado": false
-      },
-      "distribucion": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-08-14",
-        "completada": false,
-        "atrasado": false
-      },
-      "compras": {
-        "estado": "No iniciada",
-        "fecha_fin": "2026-08-21",
-        "completada": false,
-        "atrasado": false
-      },
-      "ttff_sem": 22.4,
-      "tta_sem": 24.4,
-      "ttv_sem": 25.4,
-      "elapsed_sem": 18.9,
-      "remaining_sem": 6.6,
-      "progress_pct": 27,
-      "status": "en_progreso",
-      "atrasado_por": []
-    },
-    {
-      "name": "Tuvacol",
-      "flag": "🇨🇴",
-      "country": "Colombia",
-      "kickoff": "2026-02-24",
-      "is_outlier_visual": false,
-      "in_average": true,
-      "source": "notion",
-      "forecast": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-04-03",
-        "completada": false,
-        "atrasado": true
-      },
-      "distribucion": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-05-22",
-        "completada": false,
-        "atrasado": true
-      },
-      "compras": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-07-07",
-        "completada": false,
-        "atrasado": false
-      },
-      "ttff_sem": 5.4,
-      "tta_sem": 12.4,
-      "ttv_sem": 19.0,
-      "elapsed_sem": 18.9,
-      "remaining_sem": 0.1,
-      "progress_pct": 40,
-      "status": "atrasado",
-      "atrasado_por": [
-        "forecast",
-        "distribucion"
-      ]
-    },
-    {
-      "name": "Tiendas 3B",
-      "flag": "🇨🇴",
-      "country": "Colombia",
-      "kickoff": "2026-02-24",
-      "is_outlier_visual": false,
-      "in_average": true,
-      "source": "notion",
-      "forecast": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-07-17",
-        "completada": false,
-        "atrasado": false
-      },
-      "distribucion": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-07-31",
-        "completada": false,
-        "atrasado": false
-      },
-      "compras": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-08-21",
-        "completada": false,
-        "atrasado": false
-      },
-      "ttff_sem": 20.4,
-      "tta_sem": 22.4,
-      "ttv_sem": 25.4,
-      "elapsed_sem": 18.9,
-      "remaining_sem": 6.6,
-      "progress_pct": 43,
-      "status": "en_progreso",
-      "atrasado_por": []
-    },
-    {
-      "name": "MiCorral",
-      "flag": "🇨🇴",
-      "country": "Colombia",
-      "kickoff": "2026-03-02",
-      "is_outlier_visual": false,
-      "in_average": true,
-      "source": "notion",
-      "forecast": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-04-13",
-        "completada": false,
-        "atrasado": true
-      },
-      "distribucion": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-05-11",
-        "completada": false,
-        "atrasado": true
-      },
-      "compras": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-06-15",
-        "completada": false,
-        "atrasado": true
-      },
-      "ttff_sem": 6.0,
-      "tta_sem": 10.0,
-      "ttv_sem": 15.0,
-      "elapsed_sem": 18.0,
-      "remaining_sem": 0,
-      "progress_pct": 22,
-      "status": "atrasado",
-      "atrasado_por": [
-        "forecast",
-        "distribucion",
-        "compras"
-      ]
-    },
-    {
-      "name": "Puppis Col",
-      "flag": "🇨🇴",
-      "country": "Colombia",
-      "kickoff": "2025-09-03",
-      "is_outlier_visual": false,
-      "in_average": true,
-      "source": "notion",
-      "forecast": {
-        "estado": "Completada",
-        "fecha_fin": "2025-12-19",
-        "completada": true,
-        "atrasado": false
-      },
-      "distribucion": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-01-16",
-        "completada": false,
-        "atrasado": true
-      },
-      "compras": {
-        "estado": "Completada",
-        "fecha_fin": "2026-02-06",
-        "completada": true,
-        "atrasado": false
-      },
-      "ttff_sem": 15.3,
-      "tta_sem": 19.3,
-      "ttv_sem": 22.3,
-      "elapsed_sem": 43.7,
-      "remaining_sem": 0,
-      "progress_pct": 78,
-      "status": "atrasado",
-      "atrasado_por": [
-        "distribucion"
-      ]
-    },
-    {
       "name": "Puppis Arg",
       "flag": "🇦🇷",
-      "country": "Argentina",
+      "country": "",
       "kickoff": "2026-03-02",
       "is_outlier_visual": false,
       "in_average": false,
-      "source": "notion",
+      "source": "celes-cronogramas",
       "forecast": {
         "estado": "Completada",
         "fecha_fin": "2026-04-30",
@@ -337,8 +236,11 @@
       "ttff_sem": 8.4,
       "tta_sem": 7.0,
       "ttv_sem": 8.4,
-      "elapsed_sem": 18.0,
-      "remaining_sem": 0,
+      "ttff_base_sem": 77.1,
+      "tta_base_sem": 75.7,
+      "ttv_base_sem": 77.1,
+      "elapsed_sem": 18.4,
+      "remaining_sem": 0.0,
       "progress_pct": 73,
       "status": "atrasado",
       "atrasado_por": [
@@ -347,16 +249,178 @@
       ]
     },
     {
+      "name": "Puppis Col",
+      "flag": "🇨🇴",
+      "country": "",
+      "kickoff": "2025-09-03",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "celes-cronogramas",
+      "forecast": {
+        "estado": "Completada",
+        "fecha_fin": "2025-12-19",
+        "completada": true,
+        "atrasado": false
+      },
+      "distribucion": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-01-16",
+        "completada": false,
+        "atrasado": true
+      },
+      "compras": {
+        "estado": "Completada",
+        "fecha_fin": "2026-02-06",
+        "completada": true,
+        "atrasado": false
+      },
+      "ttff_sem": 15.3,
+      "tta_sem": 19.3,
+      "ttv_sem": 22.3,
+      "ttff_base_sem": 15.3,
+      "tta_base_sem": 19.3,
+      "ttv_base_sem": 22.3,
+      "elapsed_sem": 44.1,
+      "remaining_sem": 0.0,
+      "progress_pct": 80,
+      "status": "atrasado",
+      "atrasado_por": [
+        "distribucion"
+      ]
+    },
+    {
+      "name": "Tiendas 3B",
+      "flag": "🇨🇴",
+      "country": "",
+      "kickoff": "2026-02-24",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "celes-cronogramas",
+      "forecast": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-07-17",
+        "completada": false,
+        "atrasado": false
+      },
+      "distribucion": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-07-31",
+        "completada": false,
+        "atrasado": false
+      },
+      "compras": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-08-21",
+        "completada": false,
+        "atrasado": false
+      },
+      "ttff_sem": 20.4,
+      "tta_sem": 22.4,
+      "ttv_sem": 25.4,
+      "ttff_base_sem": 21.1,
+      "tta_base_sem": 23.1,
+      "ttv_base_sem": 26.1,
+      "elapsed_sem": 19.3,
+      "remaining_sem": 6.1,
+      "progress_pct": 43,
+      "status": "en_progreso",
+      "atrasado_por": []
+    },
+    {
+      "name": "Tuvacol",
+      "flag": "🇨🇴",
+      "country": "",
+      "kickoff": "2026-02-24",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "celes-cronogramas",
+      "forecast": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-04-30",
+        "completada": false,
+        "atrasado": true
+      },
+      "distribucion": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-04-20",
+        "completada": false,
+        "atrasado": true
+      },
+      "compras": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-06-01",
+        "completada": false,
+        "atrasado": true
+      },
+      "ttff_sem": 9.3,
+      "tta_sem": 7.9,
+      "ttv_sem": 13.9,
+      "ttff_base_sem": 20.1,
+      "tta_base_sem": 18.7,
+      "ttv_base_sem": 24.7,
+      "elapsed_sem": 19.3,
+      "remaining_sem": 0.0,
+      "progress_pct": 41,
+      "status": "atrasado",
+      "atrasado_por": [
+        "forecast",
+        "distribucion",
+        "compras"
+      ]
+    },
+    {
+      "name": "MiCorral",
+      "flag": "🇨🇴",
+      "country": "",
+      "kickoff": "2026-03-02",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "celes-cronogramas",
+      "forecast": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-04-30",
+        "completada": false,
+        "atrasado": true
+      },
+      "distribucion": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-04-20",
+        "completada": false,
+        "atrasado": true
+      },
+      "compras": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-06-01",
+        "completada": false,
+        "atrasado": true
+      },
+      "ttff_sem": 8.4,
+      "tta_sem": 7.0,
+      "ttv_sem": 13.0,
+      "ttff_base_sem": 20.1,
+      "tta_base_sem": 18.7,
+      "ttv_base_sem": 24.7,
+      "elapsed_sem": 18.4,
+      "remaining_sem": 0.0,
+      "progress_pct": 21,
+      "status": "atrasado",
+      "atrasado_por": [
+        "forecast",
+        "distribucion",
+        "compras"
+      ]
+    },
+    {
       "name": "Farmanorte",
       "flag": "🇨🇴",
-      "country": "Colombia",
+      "country": "",
       "kickoff": "2026-04-23",
       "is_outlier_visual": false,
       "in_average": true,
-      "source": "notion",
+      "source": "celes-cronogramas",
       "forecast": {
         "estado": "Sin empezar",
-        "fecha_fin": "2026-07-20",
+        "fecha_fin": "2026-08-07",
         "completada": false,
         "atrasado": false
       },
@@ -372,48 +436,16 @@
         "completada": false,
         "atrasado": false
       },
-      "ttff_sem": 12.6,
+      "ttff_sem": 15.1,
       "tta_sem": 15.6,
       "ttv_sem": 20.1,
-      "elapsed_sem": 10.6,
-      "remaining_sem": 9.6,
-      "progress_pct": 7,
+      "ttff_base_sem": 12.6,
+      "tta_base_sem": 15.6,
+      "ttv_base_sem": 20.1,
+      "elapsed_sem": 11.0,
+      "remaining_sem": 9.1,
+      "progress_pct": 20,
       "status": "en_progreso",
-      "atrasado_por": []
-    },
-    {
-      "name": "Neto",
-      "flag": "🇲🇽",
-      "country": "México",
-      "kickoff": "2025-07-05",
-      "is_outlier_visual": false,
-      "in_average": true,
-      "source": "gsheet",
-      "forecast": {
-        "estado": "Completado",
-        "fecha_fin": "2026-01-09",
-        "completada": true,
-        "atrasado": false
-      },
-      "distribucion": {
-        "estado": "Completado",
-        "fecha_fin": "2026-04-27",
-        "completada": true,
-        "atrasado": false
-      },
-      "compras": {
-        "estado": "Completado",
-        "fecha_fin": "2026-07-02",
-        "completada": true,
-        "atrasado": false
-      },
-      "ttff_sem": 26.9,
-      "tta_sem": 42.3,
-      "ttv_sem": 51.7,
-      "elapsed_sem": 52.3,
-      "remaining_sem": 0,
-      "progress_pct": 100,
-      "status": "golive",
       "atrasado_por": []
     }
   ]
