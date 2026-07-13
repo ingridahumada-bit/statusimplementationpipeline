@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-10",
+  "updated_at": "2026-07-13",
   "averages": {
     "ttff": 18.6,
     "tta": 26.5,
@@ -10,6 +10,161 @@
     "n_ttv": 10
   },
   "clients": [
+    {
+      "name": "Cruz Verde",
+      "flag": "🇨🇴",
+      "country": "Colombia",
+      "kickoff": "2025-01-07",
+      "is_outlier_visual": true,
+      "in_average": true,
+      "source": "celes-cronogramas",
+      "forecast": {
+        "estado": "Completada",
+        "fecha_fin": null,
+        "completada": true,
+        "atrasado": false
+      },
+      "distribucion": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-05-08",
+        "completada": false,
+        "atrasado": true
+      },
+      "compras": {
+        "estado": "En progreso",
+        "fecha_fin": "2026-05-30",
+        "completada": false,
+        "atrasado": true
+      },
+      "ttff_sem": null,
+      "tta_sem": 69.4,
+      "ttv_sem": 72.6,
+      "ttff_base_sem": null,
+      "tta_base_sem": 69.4,
+      "ttv_base_sem": 72.6,
+      "elapsed_sem": 78.9,
+      "remaining_sem": 0.0,
+      "progress_pct": 33,
+      "status": "atrasado",
+      "atrasado_por": [
+        "distribucion",
+        "compras"
+      ]
+    },
+    {
+      "name": "Fybeca",
+      "flag": "🇪🇨",
+      "country": "Ecuador",
+      "kickoff": "2025-08-19",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "celes-cronogramas",
+      "forecast": {
+        "estado": "Completada",
+        "fecha_fin": "2025-12-12",
+        "completada": true,
+        "atrasado": false
+      },
+      "distribucion": {
+        "estado": "Completada",
+        "fecha_fin": "2026-01-02",
+        "completada": true,
+        "atrasado": false
+      },
+      "compras": {
+        "estado": "Completada",
+        "fecha_fin": "2026-04-30",
+        "completada": true,
+        "atrasado": false
+      },
+      "ttff_sem": 16.4,
+      "tta_sem": 19.4,
+      "ttv_sem": 36.3,
+      "ttff_base_sem": 16.4,
+      "tta_base_sem": 19.4,
+      "ttv_base_sem": 36.3,
+      "elapsed_sem": 46.9,
+      "remaining_sem": 0.0,
+      "progress_pct": 100,
+      "status": "golive",
+      "atrasado_por": []
+    },
+    {
+      "name": "Neto",
+      "flag": "🇲🇽",
+      "country": "México",
+      "kickoff": "2025-07-05",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "celes-cronogramas",
+      "forecast": {
+        "estado": "Completada",
+        "fecha_fin": "2026-01-09",
+        "completada": true,
+        "atrasado": false
+      },
+      "distribucion": {
+        "estado": "Completada",
+        "fecha_fin": "2026-04-27",
+        "completada": true,
+        "atrasado": false
+      },
+      "compras": {
+        "estado": "Completada",
+        "fecha_fin": "2026-07-02",
+        "completada": true,
+        "atrasado": false
+      },
+      "ttff_sem": 26.9,
+      "tta_sem": 42.3,
+      "ttv_sem": 51.7,
+      "ttff_base_sem": 26.9,
+      "tta_base_sem": 42.3,
+      "ttv_base_sem": 51.7,
+      "elapsed_sem": 53.3,
+      "remaining_sem": 0.0,
+      "progress_pct": 100,
+      "status": "golive",
+      "atrasado_por": []
+    },
+    {
+      "name": "Farmanorte",
+      "flag": "🇨🇴",
+      "country": "",
+      "kickoff": "2026-04-23",
+      "is_outlier_visual": false,
+      "in_average": true,
+      "source": "celes-cronogramas",
+      "forecast": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-08-07",
+        "completada": false,
+        "atrasado": false
+      },
+      "distribucion": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-08-10",
+        "completada": false,
+        "atrasado": false
+      },
+      "compras": {
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-09-11",
+        "completada": false,
+        "atrasado": false
+      },
+      "ttff_sem": 15.1,
+      "tta_sem": 15.6,
+      "ttv_sem": 20.1,
+      "ttff_base_sem": 12.6,
+      "tta_base_sem": 15.6,
+      "ttv_base_sem": 20.1,
+      "elapsed_sem": 11.6,
+      "remaining_sem": 8.6,
+      "progress_pct": 20,
+      "status": "en_progreso",
+      "atrasado_por": []
+    },
     {
       "name": "MAJA",
       "flag": "🇨🇴",
@@ -42,8 +197,8 @@
       "ttff_base_sem": 9.3,
       "tta_base_sem": 7.9,
       "ttv_base_sem": 13.9,
-      "elapsed_sem": 19.4,
-      "remaining_sem": 6.0,
+      "elapsed_sem": 19.9,
+      "remaining_sem": 5.6,
       "progress_pct": 28,
       "status": "en_progreso",
       "atrasado_por": []
@@ -80,7 +235,7 @@
       "ttff_base_sem": 34.1,
       "tta_base_sem": 38,
       "ttv_base_sem": 41.7,
-      "elapsed_sem": 43.6,
+      "elapsed_sem": 44.0,
       "remaining_sem": 0.0,
       "progress_pct": 70,
       "status": "atrasado",
@@ -122,7 +277,7 @@
       "ttff_base_sem": 7.9,
       "tta_base_sem": 6.4,
       "ttv_base_sem": 12.4,
-      "elapsed_sem": 18.6,
+      "elapsed_sem": 19.0,
       "remaining_sem": 0.0,
       "progress_pct": 23,
       "status": "atrasado",
@@ -164,7 +319,7 @@
       "ttff_base_sem": 77.1,
       "tta_base_sem": 75.7,
       "ttv_base_sem": 77.1,
-      "elapsed_sem": 18.6,
+      "elapsed_sem": 19.0,
       "remaining_sem": 0.0,
       "progress_pct": 71,
       "status": "atrasado",
@@ -205,54 +360,12 @@
       "ttff_base_sem": 15.3,
       "tta_base_sem": 19.3,
       "ttv_base_sem": 22.3,
-      "elapsed_sem": 44.3,
+      "elapsed_sem": 44.7,
       "remaining_sem": 0.0,
       "progress_pct": 79,
       "status": "atrasado",
       "atrasado_por": [
         "distribucion"
-      ]
-    },
-    {
-      "name": "Tuvacol",
-      "flag": "🇨🇴",
-      "country": "",
-      "kickoff": "2026-02-24",
-      "is_outlier_visual": false,
-      "in_average": true,
-      "source": "celes-cronogramas",
-      "forecast": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-04-30",
-        "completada": false,
-        "atrasado": true
-      },
-      "distribucion": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-04-20",
-        "completada": false,
-        "atrasado": true
-      },
-      "compras": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-06-01",
-        "completada": false,
-        "atrasado": true
-      },
-      "ttff_sem": 9.3,
-      "tta_sem": 7.9,
-      "ttv_sem": 13.9,
-      "ttff_base_sem": 9.3,
-      "tta_base_sem": 7.9,
-      "ttv_base_sem": 13.9,
-      "elapsed_sem": 19.4,
-      "remaining_sem": 0.0,
-      "progress_pct": 39,
-      "status": "atrasado",
-      "atrasado_por": [
-        "forecast",
-        "distribucion",
-        "compras"
       ]
     },
     {
@@ -287,166 +400,53 @@
       "ttff_base_sem": 10.4,
       "tta_base_sem": 13.4,
       "ttv_base_sem": 18.4,
-      "elapsed_sem": 19.4,
-      "remaining_sem": 6.0,
+      "elapsed_sem": 19.9,
+      "remaining_sem": 5.6,
       "progress_pct": 42,
       "status": "en_progreso",
       "atrasado_por": []
     },
     {
-      "name": "Cruz Verde",
+      "name": "Tuvacol",
       "flag": "🇨🇴",
-      "country": "Colombia",
-      "kickoff": "2025-01-07",
-      "is_outlier_visual": true,
+      "country": "",
+      "kickoff": "2026-02-24",
+      "is_outlier_visual": false,
       "in_average": true,
       "source": "celes-cronogramas",
       "forecast": {
-        "estado": "Completada",
-        "fecha_fin": null,
-        "completada": true,
-        "atrasado": false
+        "estado": "En progreso",
+        "fecha_fin": "2026-04-30",
+        "completada": false,
+        "atrasado": true
       },
       "distribucion": {
         "estado": "En progreso",
-        "fecha_fin": "2026-05-08",
+        "fecha_fin": "2026-04-20",
         "completada": false,
         "atrasado": true
       },
       "compras": {
         "estado": "En progreso",
-        "fecha_fin": "2026-05-30",
+        "fecha_fin": "2026-06-01",
         "completada": false,
         "atrasado": true
       },
-      "ttff_sem": null,
-      "tta_sem": 69.4,
-      "ttv_sem": 72.6,
-      "ttff_base_sem": null,
-      "tta_base_sem": 69.4,
-      "ttv_base_sem": 72.6,
-      "elapsed_sem": 78.4,
+      "ttff_sem": 9.3,
+      "tta_sem": 7.9,
+      "ttv_sem": 13.9,
+      "ttff_base_sem": 9.3,
+      "tta_base_sem": 7.9,
+      "ttv_base_sem": 13.9,
+      "elapsed_sem": 19.9,
       "remaining_sem": 0.0,
-      "progress_pct": 33,
+      "progress_pct": 39,
       "status": "atrasado",
       "atrasado_por": [
+        "forecast",
         "distribucion",
         "compras"
       ]
-    },
-    {
-      "name": "Fybeca",
-      "flag": "🇪🇨",
-      "country": "Ecuador",
-      "kickoff": "2025-08-19",
-      "is_outlier_visual": false,
-      "in_average": true,
-      "source": "celes-cronogramas",
-      "forecast": {
-        "estado": "Completada",
-        "fecha_fin": "2025-12-12",
-        "completada": true,
-        "atrasado": false
-      },
-      "distribucion": {
-        "estado": "Completada",
-        "fecha_fin": "2026-01-02",
-        "completada": true,
-        "atrasado": false
-      },
-      "compras": {
-        "estado": "Completada",
-        "fecha_fin": "2026-04-30",
-        "completada": true,
-        "atrasado": false
-      },
-      "ttff_sem": 16.4,
-      "tta_sem": 19.4,
-      "ttv_sem": 36.3,
-      "ttff_base_sem": 16.4,
-      "tta_base_sem": 19.4,
-      "ttv_base_sem": 36.3,
-      "elapsed_sem": 46.4,
-      "remaining_sem": 0.0,
-      "progress_pct": 100,
-      "status": "golive",
-      "atrasado_por": []
-    },
-    {
-      "name": "Neto",
-      "flag": "🇲🇽",
-      "country": "México",
-      "kickoff": "2025-07-05",
-      "is_outlier_visual": false,
-      "in_average": true,
-      "source": "celes-cronogramas",
-      "forecast": {
-        "estado": "Completada",
-        "fecha_fin": "2026-01-09",
-        "completada": true,
-        "atrasado": false
-      },
-      "distribucion": {
-        "estado": "Completada",
-        "fecha_fin": "2026-04-27",
-        "completada": true,
-        "atrasado": false
-      },
-      "compras": {
-        "estado": "Completada",
-        "fecha_fin": "2026-07-02",
-        "completada": true,
-        "atrasado": false
-      },
-      "ttff_sem": 26.9,
-      "tta_sem": 42.3,
-      "ttv_sem": 51.7,
-      "ttff_base_sem": 26.9,
-      "tta_base_sem": 42.3,
-      "ttv_base_sem": 51.7,
-      "elapsed_sem": 52.9,
-      "remaining_sem": 0.0,
-      "progress_pct": 100,
-      "status": "golive",
-      "atrasado_por": []
-    },
-    {
-      "name": "Farmanorte",
-      "flag": "🇨🇴",
-      "country": "",
-      "kickoff": "2026-04-23",
-      "is_outlier_visual": false,
-      "in_average": true,
-      "source": "celes-cronogramas",
-      "forecast": {
-        "estado": "Sin empezar",
-        "fecha_fin": "2026-08-07",
-        "completada": false,
-        "atrasado": false
-      },
-      "distribucion": {
-        "estado": "Sin empezar",
-        "fecha_fin": "2026-08-10",
-        "completada": false,
-        "atrasado": false
-      },
-      "compras": {
-        "estado": "Sin empezar",
-        "fecha_fin": "2026-09-11",
-        "completada": false,
-        "atrasado": false
-      },
-      "ttff_sem": 15.1,
-      "tta_sem": 15.6,
-      "ttv_sem": 20.1,
-      "ttff_base_sem": 12.6,
-      "tta_base_sem": 15.6,
-      "ttv_base_sem": 20.1,
-      "elapsed_sem": 11.1,
-      "remaining_sem": 9.0,
-      "progress_pct": 20,
-      "status": "en_progreso",
-      "atrasado_por": []
     }
   ]
 }
