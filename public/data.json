@@ -2,9 +2,9 @@
   "updated_at": "2026-07-13",
   "averages": {
     "ttff": 18.6,
-    "tta": 26.5,
-    "ttv": 32.2,
-    "ttv_no_cv": 27.7,
+    "tta": 26.4,
+    "ttv": 32.1,
+    "ttv_no_cv": 27.6,
     "n_ttff": 9,
     "n_tta": 10,
     "n_ttv": 10
@@ -143,24 +143,24 @@
       },
       "distribucion": {
         "estado": "Sin empezar",
-        "fecha_fin": "2026-08-10",
+        "fecha_fin": "2026-08-07",
         "completada": false,
         "atrasado": false
       },
       "compras": {
         "estado": "Sin empezar",
-        "fecha_fin": "2026-09-11",
+        "fecha_fin": "2026-09-04",
         "completada": false,
         "atrasado": false
       },
       "ttff_sem": 15.1,
-      "tta_sem": 15.6,
-      "ttv_sem": 20.1,
-      "ttff_base_sem": 12.6,
-      "tta_base_sem": 15.6,
-      "ttv_base_sem": 20.1,
+      "tta_sem": 15.1,
+      "ttv_sem": 19.1,
+      "ttff_base_sem": 13.6,
+      "tta_base_sem": 14.7,
+      "ttv_base_sem": 19.1,
       "elapsed_sem": 11.6,
-      "remaining_sem": 8.6,
+      "remaining_sem": 7.6,
       "progress_pct": 20,
       "status": "en_progreso",
       "atrasado_por": []
@@ -302,31 +302,28 @@
         "atrasado": false
       },
       "distribucion": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-04-20",
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-07-17",
         "completada": false,
-        "atrasado": true
+        "atrasado": false
       },
       "compras": {
-        "estado": "En progreso",
-        "fecha_fin": "2026-04-30",
+        "estado": "Sin empezar",
+        "fecha_fin": "2026-07-30",
         "completada": false,
-        "atrasado": true
+        "atrasado": false
       },
       "ttff_sem": 8.4,
-      "tta_sem": 7.0,
-      "ttv_sem": 8.4,
+      "tta_sem": 19.6,
+      "ttv_sem": 21.4,
       "ttff_base_sem": 77.1,
       "tta_base_sem": 75.7,
       "ttv_base_sem": 77.1,
       "elapsed_sem": 19.0,
-      "remaining_sem": 0.0,
+      "remaining_sem": 2.4,
       "progress_pct": 71,
-      "status": "atrasado",
-      "atrasado_por": [
-        "distribucion",
-        "compras"
-      ]
+      "status": "en_progreso",
+      "atrasado_por": []
     },
     {
       "name": "Puppis Col",
@@ -343,10 +340,10 @@
         "atrasado": false
       },
       "distribucion": {
-        "estado": "En progreso",
+        "estado": "Completada",
         "fecha_fin": "2026-01-16",
-        "completada": false,
-        "atrasado": true
+        "completada": true,
+        "atrasado": false
       },
       "compras": {
         "estado": "Completada",
@@ -362,11 +359,9 @@
       "ttv_base_sem": 22.3,
       "elapsed_sem": 44.7,
       "remaining_sem": 0.0,
-      "progress_pct": 79,
-      "status": "atrasado",
-      "atrasado_por": [
-        "distribucion"
-      ]
+      "progress_pct": 90,
+      "status": "golive",
+      "atrasado_por": []
     },
     {
       "name": "Tiendas 3B",
