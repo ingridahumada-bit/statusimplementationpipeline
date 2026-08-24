@@ -22,7 +22,7 @@ import requests
 
 METRICS_URL = os.environ.get(
     "METRICS_URL",
-    "https://celes-cronogramas-iau-implementaciones.vercel.app/api/metrics",
+    "https://celes-cronogramas.vercel.app/api/metrics",
 )
 METRICS_TOKEN = os.environ["METRICS_TOKEN"]
 
